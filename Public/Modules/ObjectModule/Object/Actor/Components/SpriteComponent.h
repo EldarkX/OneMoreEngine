@@ -2,7 +2,7 @@
 
 #include "Modules/ObjectModule/Object/Components/BaseComponent.h"
 
-class Texture;
+class OTexture;
 
 class CSpriteComponent : public CBaseComponent
 {
@@ -10,22 +10,22 @@ class CSpriteComponent : public CBaseComponent
 
 public:
 
-	virtual void	BeginPlay() override;
+	virtual void			BeginPlay() override;
 
-	Texture			*GetTexture() const { return mTexture; }
-	void			SetTexture(Texture* newTexture);
+	shared_ptr<OTexture>		GetTexture() const { return Texture; }
+	void					SetTexture(shared_ptr<OTexture> newTexture);
 	
-	int				GetDrawOrder() const { return mDrawOrder; }
-	void			SetDrawOrder(int newDrawOrder) { mDrawOrder = newDrawOrder; }
+	int						GetDrawOrder() const { return DrawOrder; }
+	void					SetDrawOrder(int newDrawOrder) { DrawOrder = newDrawOrder; }
 
-	~CSpriteComponent();
+							~CSpriteComponent();
 
 protected:
 
-	virtual void	Draw(class Shader* shader);
+	virtual void			Draw(class Shader* shader);
 
-	int				mDrawOrder = 100;
+	int						DrawOrder = 100;
 
-	Texture			*mTexture = nullptr;
+	shared_ptr<OTexture>		Texture = nullptr;
 
 };

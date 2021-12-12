@@ -20,9 +20,7 @@ void CTransform2DComponent::SetPosition(const Vector2D &newPosition)
 
 void CTransform2DComponent::SetScale(const Vector2D& newScale)
 {
-	float ScaleX = std::clamp(newScale.X(), 0.1f, 10.f);;
-	float ScaleY = std::clamp(newScale.Y(), 0.1f, 10.f);;
-	mScale = Vector2D(ScaleX, ScaleY);
+	mScale = newScale;
 	ComputeTransform();
 }
 

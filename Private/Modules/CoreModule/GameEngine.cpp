@@ -83,8 +83,7 @@ int GameEngine::PreInit()
 		return -1;
 	}
 
-	mCollisionManager = new CollisionManager();
-	assert(mCollisionManager != nullptr);
+	mCollisionManager = make_unique<CollisionManager>();
 
 	mInputManager = new InputManager();
 	assert(mInputManager != nullptr);
@@ -138,18 +137,18 @@ void GameEngine::Tick()
 
 			//OBJECTS UPDATE
 			mIsActorsUpdating = true;
-			for (auto& AActor : mActors)
+			for (auto *Actor : Actors)
 			{
-				AActor->Tick(DeltaTime);
+				Actor->Tick(DeltaTime);
 			}
 			mIsActorsUpdating = false;
 
-			for (auto& newActor : mNewActors)
+			for (auto &newActor : NewActors)
 			{
-				mActors.push_back(newActor);
+				Actors.push_back(newActor);
 			}
 
-			mNewActors.clear();
+			NewActors.clear();
 
 			KillActors();
 			
@@ -161,33 +160,30 @@ void GameEngine::Tick()
     }
 }
 
-void GameEngine::RemoveActor(AActor *ActorToRemove)
+void GameEngine::RemoveActor(AActor * ActorToRemove)
 {
+	Actors.erase(find(Actors.begin(), Actors.end(), ActorToRemove));
 	delete ActorToRemove;
-	mActors.erase(find(mActors.cbegin(), mActors.cend(), ActorToRemove));
 }
 
-void GameEngine::AddActor(AActor* ActorToAdd)
+void GameEngine::AddActor(AActor * ActorToAdd)
 {
 	if (mIsActorsUpdating)
-		mNewActors.push_back(ActorToAdd);
+		NewActors.push_back(ActorToAdd);
 	else
-		mActors.push_back(ActorToAdd);
+		Actors.push_back(ActorToAdd);
 }
 
-void GameEngine::AddObjectToKill(AActor* actorToKill)
+void GameEngine::AddObjectToKill(AActor * ActorToKill)
 {
-	ActorsToKill.push_back(actorToKill);
+	ActorsToKill.push_back(ActorToKill);
 }
 
 void GameEngine::KillActors()
 {
-	while (!ActorsToKill.empty())
-	{
-		AActor *a = ActorsToKill.back();
-		ActorsToKill.pop_back();
-		RemoveActor(a);
-	}
+	for (AActor *Actor : ActorsToKill)
+		RemoveActor(Actor);
+	ActorsToKill.clear();
 }
 
 GameEngine *GameEngine::GameEngine::GetGameEngine()
@@ -197,18 +193,8 @@ GameEngine *GameEngine::GameEngine::GetGameEngine()
 
 GameEngine::~GameEngine()
 {
-	while (!mActors.empty())
-	{
-		RemoveActor(mActors.back());
-	}
-
-	while (!mNewActors.empty())
-	{
-		RemoveActor(mNewActors.back());
-	}
-
-	if (mCollisionManager)
-		delete mCollisionManager;
+	Actors.clear();
+	NewActors.clear();
 
 	if (mAssetsManagerUtils)
 		delete mAssetsManagerUtils;

@@ -22,8 +22,8 @@ void AActor::Tick(float deltaTime)
 
 void AActor::RemoveComponent(CBaseComponent* Component)
 {
-	delete Component;
 	mComponents.erase(find(mComponents.cbegin(), mComponents.cend(), Component));
+	delete Component;
 }
 
 void AActor::SetIsPendingToKill(bool newIsPendingToKill)

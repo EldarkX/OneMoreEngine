@@ -3,13 +3,13 @@
 #include "Modules/CoreModule/GameEngine.h"
 #include <string>
 
-class Texture
+class OTexture
 {
 
 public:
 
-	Texture() {};
-	Texture(const std::string& path);
+	OTexture() {};
+	OTexture(const std::string& path);
 
 	bool			Load(const std::string& path);
 	void			Unload();
@@ -19,7 +19,7 @@ public:
 	int				GetWidth() const { return mWidth; }
 	int				GetHeight() const { return mHeight; }
 	
-	~Texture();
+	~OTexture();
 
 private:
 

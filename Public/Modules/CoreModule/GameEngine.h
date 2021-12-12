@@ -41,6 +41,13 @@ using std::weak_ptr;
 #define  DEBUG_COLLISIONS 0
 #define  DEBUG_SHOW_FPS 1
 
+class CollisionManager;
+class RenderManager;
+class InputManager;
+class AssetsManagerUtils;
+
+class AActor;
+
 class GameEngine
 {
 
@@ -61,10 +68,10 @@ public:
 
 	SDL_Window*						GetWindow() const { return mWindow; }
 
-	class CollisionManager			*GetCollisionManager() const { return mCollisionManager; }
-	class RenderManager				*GetRenderManager() const { return mRenderManager; }
-	class InputManager				*GetInputManager() const { return mInputManager; }
-	class AssetsManagerUtils		*GetAssetsManagerUtils() const { return mAssetsManagerUtils; }
+	inline CollisionManager			&GetCollisionManager() const { return *mCollisionManager; }
+	RenderManager					*GetRenderManager() const { return mRenderManager; }
+	InputManager					*GetInputManager() const { return mInputManager; }
+	AssetsManagerUtils				*GetAssetsManagerUtils() const { return mAssetsManagerUtils; }
 
 	inline int						GetWindowWidth() const { return mWindow_width; }
 	inline int						GetWindowHeight() const { return mWindow_height; }
@@ -74,10 +81,10 @@ public:
 	const EGameStatus				GetGameStatus() const { return mGameStatus; }
 	void							SetGameStatus(EGameStatus newGameStatus) { mGameStatus = newGameStatus; }
 
-	void							AddActor(class AActor* ActorToAdd);
-	void							RemoveActor(class AActor* ActorToRemove);
+	void							AddActor(AActor * ActorToAdd);
+	void							RemoveActor(AActor * ActorToRemove);
 
-	void							AddObjectToKill(class AActor* actorToKill);
+	void							AddObjectToKill(AActor* ActorToKill);
 
 	void							KillActors();
 
@@ -122,14 +129,14 @@ protected:
 	int								mWindow_halfWidth;
 	int								mWindow_halfHeight;
 
-    vector<class AActor *>			mActors;
-	vector<class AActor*>			mNewActors;
-	vector<class AActor*>			ActorsToKill;
+    vector<AActor *>		Actors;
+	vector<AActor *>		NewActors;
+	vector<AActor *>		ActorsToKill;
 
-	class CollisionManager			*mCollisionManager = nullptr;
-	class RenderManager				*mRenderManager = nullptr;
-	class InputManager				*mInputManager = nullptr;
-	class AssetsManagerUtils		*mAssetsManagerUtils = nullptr;
+	unique_ptr<CollisionManager>	mCollisionManager = nullptr;
+	RenderManager					*mRenderManager = nullptr;
+	InputManager					*mInputManager = nullptr;
+	AssetsManagerUtils				*mAssetsManagerUtils = nullptr;
 
 	static GameEngine				*thisGameEngine;
 };

@@ -13,6 +13,12 @@ public:
 
 	AActor();
 
+	AActor(const AActor& actor)		= default;
+	AActor(AActor&& actor)			= default;
+
+	AActor &operator=(const AActor& actor)	= default;
+	AActor &operator=(AActor&& actor)		= default;
+
 	virtual void					BeginPlay() override;
 
     virtual void					Tick(float deltaTime) override;

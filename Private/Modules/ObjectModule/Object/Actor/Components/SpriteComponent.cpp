@@ -11,9 +11,9 @@ void CSpriteComponent::BeginPlay()
 	GameEngine::GetGameEngine()->GetRenderManager()->AddDrawableComponent(this);
 }
 
-void CSpriteComponent::SetTexture(Texture* newTexture)
+void CSpriteComponent::SetTexture(shared_ptr<OTexture> newTexture)
 {
-	mTexture = newTexture;
+	Texture = newTexture;
 }
 
 void CSpriteComponent::Draw(Shader* shader)
@@ -24,8 +24,8 @@ void CSpriteComponent::Draw(Shader* shader)
 		scale(0, 0) = static_cast<float>(GetTexture()->GetWidth());
 		scale(1, 1) = static_cast<float>(GetTexture()->GetHeight());
 
-		if (mTexture)
-			mTexture->SetActive();
+		if (Texture)
+			Texture->SetActive();
 
 		Matrix4D world = scale * mOwner->GetActorTransform()->GetComputedTransform();
 
@@ -38,7 +38,4 @@ void CSpriteComponent::Draw(Shader* shader)
 CSpriteComponent::~CSpriteComponent()
 {
 	GameEngine::GetGameEngine()->GetRenderManager()->RemoveDrawableComponent(this);
-
-	if (mTexture)
-		delete mTexture;
 }

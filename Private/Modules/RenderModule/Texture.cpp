@@ -1,12 +1,12 @@
 
 #include "Modules/RenderModule/Texture.h"
 
-Texture::Texture(const std::string& path)
+OTexture::OTexture(const std::string& path)
 {
 	Load(path);
 }
 
-bool Texture::Load(const std::string& path)
+bool OTexture::Load(const std::string& path)
 {
 	SDL_Surface* Image;
 	Image = IMG_Load(path.c_str());
@@ -30,17 +30,17 @@ bool Texture::Load(const std::string& path)
 	return true;
 }
 
-void Texture::Unload()
+void OTexture::Unload()
 {
 	glDeleteTextures(1, &mTextureID);
 }
 
-void Texture::SetActive()
+void OTexture::SetActive()
 {
 	glBindTexture(GL_TEXTURE_2D, mTextureID);
 }
 
-Texture::~Texture()
+OTexture::~OTexture()
 {
 	Unload();
 }

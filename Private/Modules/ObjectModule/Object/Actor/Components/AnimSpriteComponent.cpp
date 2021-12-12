@@ -6,18 +6,18 @@
 
 void CAnimSpriteComponent::PlayAnimation(string name, float playRate)
 {
-	if (mAnimations.count(name))
+	if (Animations.count(name))
 	{
-		shared_ptr<Animation> AnimToSet = mAnimations[name];
-		if (!mCurrentAnimation.second ||
-			(AnimToSet != mCurrentAnimation.second && AnimToSet->mPriority >= mCurrentAnimation.second->mPriority))
+		shared_ptr<Animation> AnimToSet = Animations[name];
+		if (!CurrentAnimation.second ||
+			(AnimToSet != CurrentAnimation.second && AnimToSet->Priority >= CurrentAnimation.second->Priority))
 		{
-			mCurrentAnimation = { name, AnimToSet };
-			mCurrentAnimFps = static_cast<int>(mCurrentAnimation.second->mAnimFps * playRate);
+			CurrentAnimation = { name, AnimToSet };
+			CurrentAnimFps = static_cast<int>(CurrentAnimation.second->AnimFps * playRate);
 
-			mCurrentFrame = 0;
+			CurrentFrame = 0;
 
-			SetTexture(mCurrentAnimation.second->mTextures[static_cast<int>(mCurrentFrame)]);
+			SetTexture(CurrentAnimation.second->Textures[static_cast<int>(CurrentFrame)]);
 
 			OnAnimationStartPlay(name);
 		}
@@ -28,25 +28,25 @@ void CAnimSpriteComponent::Tick(float deltaTime)
 {
 	CSpriteComponent::Tick(deltaTime);
 
-	if (mCurrentAnimation.second)
+	if (CurrentAnimation.second)
 	{
-		mCurrentFrame += mCurrentAnimFps * deltaTime;
+		CurrentFrame += CurrentAnimFps * deltaTime;
 
-		if (mCurrentFrame >= mCurrentAnimation.second->mTexturesAmount)
+		if (CurrentFrame >= CurrentAnimation.second->TexturesAmount)
 		{
-			if (mCurrentAnimation.second->mIsLooping)
+			if (CurrentAnimation.second->IsLooping)
 			{
-				mCurrentFrame -= mCurrentAnimation.second->mTexturesAmount;
+				CurrentFrame -= CurrentAnimation.second->TexturesAmount;
 			}
 			else
 			{
-				OnAnimationEndPlay(mCurrentAnimation.first);
-				mCurrentAnimation.second = nullptr;
-				PlayAnimation(mBaseAnimation);			
+				OnAnimationEndPlay(CurrentAnimation.first);
+				CurrentAnimation.second = nullptr;
+				PlayAnimation(BaseAnimation);			
 			}
 		}
 
-		SetTexture(mCurrentAnimation.second->mTextures[static_cast<int>(mCurrentFrame)]);
+		SetTexture(CurrentAnimation.second->Textures[static_cast<int>(CurrentFrame)]);
 	}
 }
 
@@ -61,25 +61,25 @@ void CAnimSpriteComponent::AddAnimation(string name, string path, unsigned int f
 	for (unsigned int i = 1; i <= framesAmount; ++i)
 	{
 		new_path = path + std::to_string(i) + ".png";
-		newAnim->mTextures.push_back(new Texture(new_path.c_str()));
+		newAnim->Textures.push_back(make_shared<OTexture>(new_path.c_str()));
 	}
 
-	newAnim->mTexturesAmount = newAnim->mTextures.size();
+	newAnim->TexturesAmount = newAnim->Textures.size();
 
-	mAnimations.insert({ name, newAnim });
+	Animations.insert({ name, newAnim });
 }
 
 void CAnimSpriteComponent::SetBaseAnimation(string name)
 {
-	if (!mAnimations.count(name))
+	if (!Animations.count(name))
 	{
 		cout << "Error: can't set base animation" << endl;
 		exit(-1);
 	}
 
-	mBaseAnimation = name;
+	BaseAnimation = name;
 
-	mCurrentAnimation = { name, mAnimations[mBaseAnimation] };
+	CurrentAnimation = { name, Animations[BaseAnimation] };
 }
 
 void CAnimSpriteComponent::BeginPlay()
@@ -89,15 +89,12 @@ void CAnimSpriteComponent::BeginPlay()
 
 CAnimSpriteComponent::~CAnimSpriteComponent()
 {
-	mCurrentAnimation.second = nullptr;
-	mAnimations.clear();
+	CurrentAnimation.second = nullptr;
+	Animations.clear();
 
 	SetTexture(nullptr);
 }
 
 Animation::~Animation()
 {
-	for (auto *texture : mTextures)
-		delete texture;
-	mTextures.clear();
 }

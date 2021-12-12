@@ -2,18 +2,18 @@
 
 #include "Modules/ObjectModule/Object/Actor/Components/SpriteComponent.h"
 
-class Texture;
+class OTexture;
 
 struct Animation
 {
 	Animation(unsigned int animFPS, unsigned int priority, bool isLooping)
-		: mAnimFps(animFPS), mPriority(priority), mIsLooping(isLooping) {};
+		: AnimFps(animFPS), Priority(priority), IsLooping(isLooping) {};
 
-	unsigned int						mAnimFps = 24;
-	unsigned int						mPriority = 0;
-	vector<Texture*>					mTextures;
-	size_t								mTexturesAmount = 0;
-	bool								mIsLooping = true;
+	unsigned int						AnimFps = 24;
+	unsigned int						Priority = 0;
+	vector<shared_ptr<OTexture>>		Textures;
+	size_t								TexturesAmount = 0;
+	bool								IsLooping = true;
 
 	~Animation();
 };
@@ -22,8 +22,8 @@ class CAnimSpriteComponent : public CSpriteComponent
 {
 
 public:
-	int											GetAnimFPS() const { return mCurrentAnimFps; }
-	void										SetAnimFPS(int AnimFPS) { mCurrentAnimFps = AnimFPS; }
+	int											GetAnimFPS() const { return CurrentAnimFps; }
+	void										SetAnimFPS(int AnimFPS) { CurrentAnimFps = AnimFPS; }
 
 	virtual void								Tick(float deltaTime) override;
 
@@ -42,11 +42,11 @@ public:
 	~CAnimSpriteComponent();
 
 protected:
-	std::map<string, shared_ptr<Animation>>		mAnimations;
+	std::map<string, shared_ptr<Animation>>		Animations;
 	
-	std::pair<string, shared_ptr<Animation>>	mCurrentAnimation;
-	string										mBaseAnimation;
+	std::pair<string, shared_ptr<Animation>>	CurrentAnimation;
+	string										BaseAnimation;
 
-	int											mCurrentAnimFps = 24;
-	float										mCurrentFrame = 0;
+	int											CurrentAnimFps = 24;
+	float										CurrentFrame = 0;
 };

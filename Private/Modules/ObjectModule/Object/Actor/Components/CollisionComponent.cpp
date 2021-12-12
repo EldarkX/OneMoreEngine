@@ -11,7 +11,7 @@ void CCollisionComponent::TriggerCollision(class AActor* AnotherActor, CCollisio
 
 void CCollisionComponent::BeginPlay()
 {
-	GameEngine::GetGameEngine()->GetCollisionManager()->AddAgent(this);
+	GameEngine::GetGameEngine()->GetCollisionManager().AddAgent(this);
 }
 
 void CCollisionComponent::SetCollisionResponseToChannel(ECollisionChannel CollisionChannel, ECollisionType newResponse)
@@ -44,5 +44,5 @@ bool CCollisionComponent::IsCollisionEnabled()
 
 CCollisionComponent::~CCollisionComponent()
 {
-	GameEngine::GetGameEngine()->GetCollisionManager()->RemoveAgent(this);
+	GameEngine::GetGameEngine()->GetCollisionManager().RemoveAgent(this);
 }
