@@ -1,0 +1,213 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Private\Modules\CoreModule\CollisionManager.cpp" />
+    <ClCompile Include="Private\Modules\CoreModule\DataTypes.cpp" />
+    <ClCompile Include="Private\Modules\CoreModule\GameEngine.cpp" />
+    <ClCompile Include="Private\Modules\CoreModule\InputManager.cpp" />
+    <ClCompile Include="Private\Modules\LevelModule\BGComponent.cpp" />
+    <ClCompile Include="Private\Modules\MathModule\Matrix3.cpp" />
+    <ClCompile Include="Private\Modules\MathModule\Matrix4.cpp" />
+    <ClCompile Include="Private\Modules\MathModule\Vector2D.cpp" />
+    <ClCompile Include="Private\Modules\MathModule\Vector3D.cpp" />
+    <ClCompile Include="Private\Modules\ObjectModule\Object\Actor\Actor.cpp" />
+    <ClCompile Include="Private\Modules\ObjectModule\Object\Actor\AnimSpriteActor.cpp" />
+    <ClCompile Include="Private\Modules\ObjectModule\Object\Actor\Components\AnimSpriteComponent.cpp" />
+    <ClCompile Include="Private\Modules\ObjectModule\Object\Actor\Components\CollisionComponent.cpp" />
+    <ClCompile Include="Private\Modules\ObjectModule\Object\Actor\Components\LinearMovementComponent.cpp" />
+    <ClCompile Include="Private\Modules\ObjectModule\Object\Actor\Components\SpriteComponent.cpp" />
+    <ClCompile Include="Private\Modules\ObjectModule\Object\Actor\Components\Transform2DComponent.cpp" />
+    <ClCompile Include="Private\Modules\ObjectModule\Object\Actor\SpriteActor.cpp" />
+    <ClCompile Include="Private\Modules\ObjectModule\Object\Components\BaseComponent.cpp" />
+    <ClCompile Include="Private\Modules\ObjectModule\Object\Components\InputComponent.cpp" />
+    <ClCompile Include="Private\Modules\ObjectModule\Object\Object.cpp" />
+    <ClCompile Include="Private\Modules\RenderModule\RenderManager.cpp" />
+    <ClCompile Include="Private\Modules\RenderModule\Shader.cpp" />
+    <ClCompile Include="Private\Modules\RenderModule\Texture.cpp" />
+    <ClCompile Include="Private\Modules\RenderModule\VertexArray.cpp" />
+    <ClCompile Include="Private\Utils\Delegate\MulticastDelegateBase.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Public\Modules\CoreModule\CollisionManager.h" />
+    <ClInclude Include="Public\Modules\CoreModule\DataTypes.h" />
+    <ClInclude Include="Public\Modules\CoreModule\GameEngine.h" />
+    <ClInclude Include="Public\Modules\CoreModule\InputManager.h" />
+    <ClInclude Include="Public\Modules\LevelModule\BGComponent.h" />
+    <ClInclude Include="Public\Modules\MathModule\Matrix3.h" />
+    <ClInclude Include="Public\Modules\MathModule\Matrix4.h" />
+    <ClInclude Include="Public\Modules\MathModule\Vector2D.h" />
+    <ClInclude Include="Public\Modules\MathModule\Vector3D.h" />
+    <ClInclude Include="Public\Modules\ObjectModule\Object.h" />
+    <ClInclude Include="Public\Modules\ObjectModule\Object\Actor\Actor.h" />
+    <ClInclude Include="Public\Modules\ObjectModule\Object\Actor\AnimSpriteActor.h" />
+    <ClInclude Include="Public\Modules\ObjectModule\Object\Actor\Components\AnimSpriteComponent.h" />
+    <ClInclude Include="Public\Modules\ObjectModule\Object\Actor\Components\CollisionComponent.h" />
+    <ClInclude Include="Public\Modules\ObjectModule\Object\Actor\Components\LinearMovementComponent.h" />
+    <ClInclude Include="Public\Modules\ObjectModule\Object\Actor\Components\SpriteComponent.h" />
+    <ClInclude Include="Public\Modules\ObjectModule\Object\Actor\Components\Transform2DComponent.h" />
+    <ClInclude Include="Public\Modules\ObjectModule\Object\Actor\SpriteActor.h" />
+    <ClInclude Include="Public\Modules\ObjectModule\Object\Components\BaseComponent.h" />
+    <ClInclude Include="Public\Modules\ObjectModule\Object\Components\InputComponent.h" />
+    <ClInclude Include="Public\Modules\RenderModule\RenderManager.h" />
+    <ClInclude Include="Public\Modules\RenderModule\Shader.h" />
+    <ClInclude Include="Public\Modules\RenderModule\Texture.h" />
+    <ClInclude Include="Public\Modules\RenderModule\VertexArray.h" />
+    <ClInclude Include="Public\Utils\AssetManager\AssetsManagerUtils.h" />
+    <ClInclude Include="Public\Utils\Delegate\DataTypes.h" />
+    <ClInclude Include="Public\Utils\Delegate\Delegate.h" />
+    <ClInclude Include="Public\Utils\Delegate\DelegateSp.h" />
+    <ClInclude Include="Public\Utils\Delegate\MulticastDelegate.h" />
+    <ClInclude Include="Public\Utils\Delegate\MulticastDelegateBase.h" />
+    <ClInclude Include="Public\Utils\Delegate\SinglecastDelegate.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Assets\Shaders\Sprite.frag" />
+    <None Include="..\Assets\Shaders\Sprite.vert" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <ProjectGuid>{630C0DC6-74BD-41F8-85F1-2D72B6FCCE0F}</ProjectGuid>
+    <RootNamespace>OneMoreEngine</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>$(IncludePath)</IncludePath>
+    <LibraryPath>$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>E:\Andrey\Projects\VS2019\OneMoreEngine\SDL2\SDL2_image\include;E:\Andrey\Projects\VS2019\OneMoreEngine\SDL2\SDL2\include;E:\Andrey\Projects\VS2019\OneMoreEngine\Public;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>Libraries\Visual Leak Detector\include;Libraries\OpenGL\Glew_2_1_0\include\GL;Libraries\SDL2\SDL2_image\include;Libraries\SOIL\include;Libraries\SDL2\SDL2\include;Public\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <AdditionalDependencies>opengl32.lib;SDL2.lib;glew32.lib;SOIL.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\Libraries\Visual Leak Detector\lib\Win64;..\Libraries\OpenGL\Glew_2_1_0\lib\Release\x64;..\Libraries\SDL2\SDL2_image\lib\x64;..\Libraries\SOIL\lib\win\x64;..\Libraries\SDL2\SDL2\lib\x64</AdditionalLibraryDirectories>
+    </Link>
+    <PostBuildEvent>
+      <Command>echo xcopy /y /d  "U:\\Pet\\VS2019\\OneMoreEngine\\x64\\Debug\\OneMoreEngine.dll" "U:\\Pet\\VS2019\\OneMoreRPG\\x64\\Debug"</Command>
+    </PostBuildEvent>
+    <Lib>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>..\Libraries\Visual Leak Detector\include;..\Libraries\OpenGL\Glew_2_1_0\include\GL;..\Libraries\SDL2\SDL2_image\include;..\Libraries\SOIL\include;..\Libraries\SDL2\SDL2\include;..\Public\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>..\Libraries\Visual Leak Detector\lib\Win64;..\Libraries\OpenGL\Glew_2_1_0\lib\Release\x64;..\Libraries\SDL2\SDL2_image\lib\x64;..\Libraries\SOIL\lib\win\x64;..\Libraries\SDL2\SDL2\lib\x64</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;SDL2.lib;glew32.lib;SOIL.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
