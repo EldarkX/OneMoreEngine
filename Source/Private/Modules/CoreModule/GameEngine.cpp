@@ -9,11 +9,11 @@
 GameEngine* GameEngine::thisGameEngine = nullptr;
 
 GameEngine::GameEngine(int window_width, int window_height)
-      : mWindow_width(window_width),
-        mWindow_height(window_height)
+      : WindowWidth(window_width),
+	WindowHeight(window_height)
 {
-	mWindow_halfWidth = mWindow_width / 2;
-	mWindow_halfHeight = mWindow_height / 2;
+	mWindow_halfWidth = WindowWidth / 2;
+	mWindow_halfHeight = WindowHeight / 2;
 
 	mGameStatus = EGameStatus::GSE_Game;
 	if (PreInit() == -1)
@@ -53,7 +53,7 @@ int GameEngine::PreInit()
 	// Force OpenGL to use hardware acceleration
 	SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
 	
-	mWindow = SDL_CreateWindow("Game", 200, 200, mWindow_width, mWindow_height, SDL_WINDOW_OPENGL);
+	mWindow = SDL_CreateWindow("Game", 200, 200, WindowWidth, WindowHeight, SDL_WINDOW_OPENGL);
 
 	if (!mWindow)
 	{
