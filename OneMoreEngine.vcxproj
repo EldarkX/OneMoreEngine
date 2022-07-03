@@ -109,9 +109,9 @@
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -193,7 +193,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\Libraries\Visual Leak Detector\include;..\Libraries\OpenGL\Glew_2_1_0\include\GL;..\Libraries\SDL2\SDL2_image\include;..\Libraries\SOIL\include;..\Libraries\SDL2\SDL2\include;..\Source\Public\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Libraries\Visual Leak Detector\include;Libraries\OpenGL\Glew_2_1_0\include\GL;Libraries\SDL2\SDL2_image\include;Libraries\SOIL\include;Libraries\SDL2\SDL2\include;Source\Public\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
@@ -201,7 +201,7 @@
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>..\Libraries\Visual Leak Detector\lib\Win64;..\Libraries\OpenGL\Glew_2_1_0\lib\Release\x64;..\Libraries\SDL2\SDL2_image\lib\x64;..\Libraries\SOIL\lib\win\x64;..\Libraries\SDL2\SDL2\lib\x64</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>Libraries\Visual Leak Detector\lib\Win64;Libraries\OpenGL\Glew_2_1_0\lib\Release\x64;Libraries\SDL2\SDL2_image\lib\x64;Libraries\SOIL\lib\win\x64;Libraries\SDL2\SDL2\lib\x64</AdditionalLibraryDirectories>
       <AdditionalDependencies>opengl32.lib;SDL2.lib;glew32.lib;SOIL.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
