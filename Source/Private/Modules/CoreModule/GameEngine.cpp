@@ -12,8 +12,8 @@ GameEngine::GameEngine(int window_width, int window_height)
       : WindowWidth(window_width),
 	WindowHeight(window_height)
 {
-	mWindow_halfWidth = WindowWidth / 2;
-	mWindow_halfHeight = WindowHeight / 2;
+	WindowHalfWidth = WindowWidth / 2;
+	WindowHalfHeight = WindowHeight / 2;
 
 	mGameStatus = EGameStatus::GSE_Game;
 	if (PreInit() == -1)

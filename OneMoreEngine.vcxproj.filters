@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Resource Files">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
@@ -7,6 +7,27 @@
     </Filter>
     <Filter Include="Resource Files\Assets">
       <UniqueIdentifier>{e6335b7d-d5af-4d0f-91bc-34f93d973fe2}</UniqueIdentifier>
+    </Filter>
+	<Filter Include="Source">
+      <UniqueIdentifier>{a74e3c8e-920b-4a2a-ab29-64041d5c7148}</UniqueIdentifier>
+    </Filter>
+	<Filter Include="Source\Public">
+      <UniqueIdentifier>{a74e3c8e-923b-4a2a-ab22-6d041d5c7148}</UniqueIdentifier>
+    </Filter>
+	<Filter Include="Source\Private">
+      <UniqueIdentifier>{a74eac8e-9a3b-422a-ab22-6d041d5c7148}</UniqueIdentifier>
+    </Filter>
+	<Filter Include="Source\Private\Modules">
+      <UniqueIdentifier>{a74eac8e-9a3b-422a-ab22-6d041dasd148}</UniqueIdentifier>
+    </Filter>
+	<Filter Include="Source\Public\Modules">
+      <UniqueIdentifier>{a74eac8e-aa3b-4227-ab22-6d041dasd148}</UniqueIdentifier>
+    </Filter>
+	<Filter Include="Source\Private\Utils">
+      <UniqueIdentifier>{a74eac8e-553b-422a-ab22-6d041dasd148}</UniqueIdentifier>
+    </Filter>
+	<Filter Include="Source\Public\Utils">
+      <UniqueIdentifier>{a74eac8e-663b-4227-ab22-6d041dasd148}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\Private\Modules\CoreModule">
       <UniqueIdentifier>{a74e1c8e-900b-4a2a-ab29-64041d5c7148}</UniqueIdentifier>
@@ -254,5 +275,8 @@
     <None Include="..\Assets\Shaders\Sprite.vert">
       <Filter>Resource Files\Assets\Shaders</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="../.gitignore"/>
   </ItemGroup>
 </Project>
