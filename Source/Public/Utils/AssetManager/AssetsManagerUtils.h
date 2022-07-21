@@ -14,14 +14,8 @@ public:
 		if (mProjectDir.empty())
 		{
 			char result[MAX_PATH];
-
-			GetModuleFileName(NULL, result, MAX_PATH);
-
-			std::string ProjectPath(result);
-
-			ProjectPath.erase(ProjectPath.find("\\x64\\"));
-
-			mProjectDir = ProjectPath;
+			_fullpath(result, "", _MAX_PATH);
+			mProjectDir = result;
 		}
 		return mProjectDir;
 	}

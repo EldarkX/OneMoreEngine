@@ -12,7 +12,7 @@ public:
 
 	virtual void			BeginPlay() override;
 
-	shared_ptr<OTexture>		GetTexture() const { return Texture; }
+	shared_ptr<OTexture>	GetTexture() const { return Texture; }
 	void					SetTexture(shared_ptr<OTexture> newTexture);
 	
 	int						GetDrawOrder() const { return DrawOrder; }
