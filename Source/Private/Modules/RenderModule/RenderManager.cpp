@@ -11,9 +11,7 @@ RenderManager::RenderManager(GameEngine* gameEngine)
 {
 	mSpriteShader = new Shader();
 
-	string ProjectDir = gameEngine->GetAssetsManagerUtils()->GetProjectDir();
-
-	if (!mSpriteShader->Load(R"(..\OneMoreEngine\Assets\Shaders\Sprite.vert)", R"(..\OneMoreEngine\Assets\Shaders\Sprite.frag)"))
+	if (!mSpriteShader->Load("Assets\\Shaders\\Sprite.vert", "Assets\\Shaders\\Sprite.frag"))
 	{
 		cout << "Shader hasn't been loaded!" << endl;
 		exit(-1);
