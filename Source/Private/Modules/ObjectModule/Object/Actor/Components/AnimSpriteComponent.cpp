@@ -8,7 +8,7 @@ void CAnimSpriteComponent::PlayAnimation(string name, float playRate)
 {
 	if (Animations.count(name))
 	{
-		shared_ptr<Animation> AnimToSet = Animations[name];
+		Animation* AnimToSet = Animations[name];
 		if (!CurrentAnimation.second ||
 			(AnimToSet != CurrentAnimation.second && AnimToSet->Priority >= CurrentAnimation.second->Priority))
 		{
@@ -56,12 +56,12 @@ void CAnimSpriteComponent::AddAnimation(string name, string path, unsigned int f
 	string zero;
 	string new_path;
 
-	shared_ptr<Animation> newAnim (new Animation(animFPS, priority, isLooping));
+	Animation* newAnim = new Animation(animFPS, priority, isLooping);
 
 	for (unsigned int i = 1; i <= framesAmount; ++i)
 	{
 		new_path = path + std::to_string(i) + ".png";
-		newAnim->Textures.push_back(make_shared<OTexture>(new_path.c_str()));
+		newAnim->Textures.push_back(new OTexture(new_path.c_str()));
 	}
 
 	newAnim->TexturesAmount = newAnim->Textures.size();

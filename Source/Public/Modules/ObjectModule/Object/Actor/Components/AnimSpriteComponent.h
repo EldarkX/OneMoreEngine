@@ -11,7 +11,7 @@ struct Animation
 
 	unsigned int						AnimFps = 24;
 	unsigned int						Priority = 0;
-	vector<shared_ptr<OTexture>>		Textures;
+	vector<OTexture*>					Textures;
 	size_t								TexturesAmount = 0;
 	bool								IsLooping = true;
 
@@ -42,9 +42,9 @@ public:
 	~CAnimSpriteComponent();
 
 protected:
-	std::map<string, shared_ptr<Animation>>		Animations;
+	std::map<string, Animation*>				Animations;
 	
-	std::pair<string, shared_ptr<Animation>>	CurrentAnimation;
+	std::pair<string, Animation*>				CurrentAnimation;
 	string										BaseAnimation;
 
 	int											CurrentAnimFps = 24;

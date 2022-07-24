@@ -12,8 +12,8 @@ public:
 
 	virtual void			BeginPlay() override;
 
-	shared_ptr<OTexture>	GetTexture() const { return Texture; }
-	void					SetTexture(shared_ptr<OTexture> newTexture);
+	OTexture*				GetTexture() const { return Texture; }
+	void					SetTexture(OTexture* newTexture);
 	
 	int						GetDrawOrder() const { return DrawOrder; }
 	void					SetDrawOrder(int newDrawOrder) { DrawOrder = newDrawOrder; }
@@ -26,6 +26,6 @@ protected:
 
 	int						DrawOrder = 100;
 
-	shared_ptr<OTexture>		Texture = nullptr;
+	OTexture*				Texture = nullptr;
 
 };

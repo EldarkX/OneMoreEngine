@@ -11,7 +11,7 @@ void CSpriteComponent::BeginPlay()
 	GameEngine::GetGameEngine()->GetRenderManager()->AddDrawableComponent(this);
 }
 
-void CSpriteComponent::SetTexture(shared_ptr<OTexture> newTexture)
+void CSpriteComponent::SetTexture(OTexture* newTexture)
 {
 	Texture = newTexture;
 }
