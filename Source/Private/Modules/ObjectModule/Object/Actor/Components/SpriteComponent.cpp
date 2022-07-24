@@ -8,6 +8,8 @@
 
 void CSpriteComponent::BeginPlay()
 {
+	CTransform2DComponent::BeginPlay();
+
 	GameEngine::GetGameEngine()->GetRenderManager()->AddDrawableComponent(this);
 }
 
@@ -27,7 +29,7 @@ void CSpriteComponent::Draw(Shader* shader)
 		if (Texture)
 			Texture->SetActive();
 
-		Matrix4D world = scale * mOwner->GetActorTransform()->GetComputedTransform();
+		Matrix4D world = scale * GetComputedWorldTransform();
 
 		shader->SetMatrixUniform("uWorldTransform", world);
 

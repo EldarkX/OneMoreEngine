@@ -7,6 +7,7 @@
 ASpriteActor::ASpriteActor()
 {
 	mSpriteComponent = AddComponent<CSpriteComponent>();
+	SetRootComponent(mSpriteComponent);
 }
 
 Vector2D ASpriteActor::GetActorSize() const

@@ -9,30 +9,40 @@ class CTransform2DComponent : public CBaseComponent
 {
 
 public:
+	virtual void			BeginPlay() override;
 
-	void		SetPosition(const Vector2D& newPosition);
-	void		SetScale(const Vector2D& newScale);
-	void		SetAngle(float newRotationAngle);
+	void					SetRelativePosition(const Vector2D& InPosition);
+	void					SetRelativeRotationAngle(float InRotationAngle);
+	void					SetRelativeScale(const Vector2D& InScale);
 
-	Vector2D	GetPosition() const { return mPosition; }
-	Vector2D	GetScale() const { return mScale; }
-	float		GetAngle() const { return mRotationAngle; }
+	Vector2D				GetRelativePosition() const { return RelativePosition; }
+	Vector2D				GetRelativeScale() const { return RelativeScale; }
+	float					GetRelativeRotationAngle() const { return RelativeRotationAngle; }
 
-	virtual void BeginPlay() override;
+	Vector2D				GetWorldPosition() const;
+	Vector2D				GetWorldScale() const;
+	float					GetWorldRotationAngle();
 
-	Matrix4D	GetComputedTransform() const;
+	Matrix4D				GetComputedWorldTransform() const;
+
+	void					AttachToComponent(CTransform2DComponent* InParent);
+	CTransform2DComponent*	GetChildComponent() const;
+protected:
+	void					SetChildComponent(CTransform2DComponent* InChild);
+
+	CTransform2DComponent*	AttachedParent = nullptr;
+	CTransform2DComponent*	ChildComponent = nullptr;
 
 private:
+	void					ComputeTransform();
 
-	void		ComputeTransform();
+	Matrix4D				ComponentToWorldTransform;
 
-	Matrix4D	mComputedTransform;
+	Matrix4D				ComputedWorldPosition;
+	Matrix4D				ComputedWorldRotation;
+	Matrix4D				ComputedWorldScale;
 
-	Matrix4D	mTransfromPosition;
-	Matrix4D	mTransfromRotation;
-	Matrix4D	mTransfromScale;
-
-	Vector2D	mPosition;
-	Vector2D	mScale = Vector2D::UnitVector;
-	float		mRotationAngle = 0;
+	Vector2D				RelativePosition = Vector2D::ZeroVector;
+	Vector2D				RelativeScale = Vector2D::UnitVector;
+	float					RelativeRotationAngle = 0.f;
 };

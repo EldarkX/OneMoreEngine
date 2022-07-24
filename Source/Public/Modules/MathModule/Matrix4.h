@@ -22,6 +22,8 @@ public:
 	float &operator()(int row, int col) { return mData[row][col]; }
 	float operator()(int row, int col) const { return mData[row][col]; }
 
+	//inline Matrix4D& operator*=(const Matrix4D& m);
+
 	static Matrix4D OneMatrix();
 	static Matrix4D ZeroMatrix();
 
@@ -33,7 +35,6 @@ private:
 inline Matrix4D operator*(const Matrix4D& m, float scalar);
 inline Matrix4D operator*(const Matrix4D& m1, const Matrix4D& m2)
 {
-
 	Matrix4D result;
 	for (int i = 0; i < 4; ++i)
 	{
@@ -49,6 +50,7 @@ inline Matrix4D operator*(const Matrix4D& m1, const Matrix4D& m2)
 	}
 	return result;
 }
+
 inline Matrix4D operator+(const Matrix4D& m1, const Matrix4D& m2);
 inline Matrix4D operator-(const Matrix4D& m1, const Matrix4D& m2);
 inline Matrix4D operator-(const Matrix4D& m);

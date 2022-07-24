@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Modules/ObjectModule/Object/Components/BaseComponent.h"
+#include "Modules/ObjectModule/Object/Actor/Components/Transform2DComponent.h"
 
 class OTexture;
 
-class CSpriteComponent : public CBaseComponent
+class CSpriteComponent : public CTransform2DComponent
 {
 	friend class	RenderManager;
 

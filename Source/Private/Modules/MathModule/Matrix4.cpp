@@ -43,6 +43,12 @@ Matrix4D operator*(const Matrix4D& m, float scalar)
 	return result;
 }
 
+//Matrix4D operator*=(const Matrix4D& m)
+//{
+//	Matrix4D result = (*this * m);
+//	return result;
+//}
+
 Matrix4D operator+(const Matrix4D& m1, const Matrix4D& m2)
 {
 	Matrix4D result;

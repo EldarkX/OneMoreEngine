@@ -6,11 +6,13 @@
 
 #include <algorithm>
 
+class CTransform2DComponent;
+class CBaseComponent;
+
 class AActor : public OObject
 {
 
 public:
-
 	AActor();
 
 	AActor(const AActor& actor)		= default;
@@ -23,20 +25,23 @@ public:
 
     virtual void					Tick(float deltaTime) override;
 
-	class CTransform2DComponent		*GetActorTransform() const { return mTransformComponent; }
+	CTransform2DComponent*			GetRootComponent() const { return RootComponent; }
+	void							SetRootComponent(CTransform2DComponent *NewRoot);
 
-	Vector2D						GetActorPosition() const { return mTransformComponent->GetPosition(); }
-	Vector2D						GetActorScale() const { return mTransformComponent->GetScale(); }
+	Vector2D						GetActorPosition() const { return RootComponent->GetRelativePosition(); }
+	float							GetActorRotationAngle() const { return RootComponent->GetRelativeRotationAngle(); }
+	Vector2D						GetActorScale() const { return RootComponent->GetRelativeScale(); }
 
 	virtual Vector2D				GetActorSize() const { return GetActorScale(); }
 
-	void							SetActorPosition(Vector2D newPosition) { mTransformComponent->SetPosition(newPosition); }
-	void							SetActorScale(Vector2D newScale) { mTransformComponent->SetScale(newScale); }
+	void							SetActorPosition(Vector2D InPosition);
+	void							SetActorRotationAngle(float InRotationAngle);
+	void							SetActorScale(Vector2D InScale);
 
 	bool							GetIsPendingToKill() const { return mIsPendingToKill; }
 	void							SetIsPendingToKill(bool newIsPendingToKill);
 
-	vector<class CBaseComponent*>	GetComponents() const { return mComponents; }
+	vector<CBaseComponent*>			GetComponents() const { return mComponents; }	
 
 	MulticastDelegate1<AActor*>		OnStartBeingPendingToKill;
 
@@ -54,18 +59,16 @@ public:
 		return dynamic_cast<T *>(NewComponent);
 	}
 
-	void							RemoveComponent(class CBaseComponent* Component);
+	void							RemoveComponent(CBaseComponent* Component);
 
 	virtual void					Destroy() override;
 
 	~AActor();
 
 protected:
-
-	vector<class CBaseComponent*>	mComponents;
-
-	class CTransform2DComponent		*mTransformComponent;
-
-	bool			mIsPendingToKill = false;
+	vector<CBaseComponent*>	mComponents;
+	bool							mIsPendingToKill = false;
+private:
+	CTransform2DComponent			*RootComponent;
 
 };

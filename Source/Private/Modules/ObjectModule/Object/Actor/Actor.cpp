@@ -7,7 +7,7 @@
 
 AActor::AActor()
 {
-	mTransformComponent = AddComponent<CTransform2DComponent>();
+	//RootComponent = AddComponent<CTransform2DComponent>();
 }
 
 void AActor::BeginPlay() {}
@@ -20,10 +20,37 @@ void AActor::Tick(float deltaTime)
 	}
 }
 
+void AActor::SetRootComponent(CTransform2DComponent* NewRoot)
+{
+	static bool OverridenRoot = false;
+
+	if (!OverridenRoot)
+	{
+		//delete RootComponent;
+		OverridenRoot = true;
+	}
+	RootComponent = NewRoot;
+}
+
 void AActor::RemoveComponent(CBaseComponent* Component)
 {
 	mComponents.erase(find(mComponents.cbegin(), mComponents.cend(), Component));
 	delete Component;
+}
+
+void AActor::SetActorPosition(Vector2D InPosition)
+{
+	RootComponent->SetRelativePosition(InPosition);
+}
+
+void AActor::SetActorRotationAngle(float InRotationAngle)
+{
+	RootComponent->SetRelativeRotationAngle(InRotationAngle);
+}
+
+void AActor::SetActorScale(Vector2D InScale)
+{
+	RootComponent->SetRelativeScale(InScale);
 }
 
 void AActor::SetIsPendingToKill(bool newIsPendingToKill)

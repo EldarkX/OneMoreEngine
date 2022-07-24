@@ -44,6 +44,7 @@ inline Vector2D operator/(const Vector2D& v, float scalar)
 }
 
 inline Vector2D operator*(const Vector2D &v, float scalar) { return (Vector2D(v.X() * scalar, v.Y() * scalar)); }
+inline Vector2D operator*(const Vector2D &v1, const Vector2D& v2) { return (Vector2D(v1.X() * v2.X(), v1.Y() * v2.Y())); }
 inline Vector2D operator+(const Vector2D& v1, const Vector2D& v2) { return (Vector2D(v1.X() + v2.X(), v1.Y() + v2.Y())); }
 inline Vector2D operator-(const Vector2D& v1, const Vector2D& v2) { return (Vector2D(v1.X() - v2.X(), v1.Y() - v2.Y())); }
 inline Vector2D operator-(const Vector2D& Vector) { return Vector2D(-Vector.X(), -Vector.Y()); }

@@ -3,57 +3,113 @@
 
 void CTransform2DComponent::BeginPlay()
 {
-	mTransfromPosition = Matrix4D::OneMatrix();
-	mTransfromRotation = Matrix4D::OneMatrix();
-	mTransfromScale = Matrix4D::OneMatrix();
+	CBaseComponent::BeginPlay();
 
-	mTransfromPosition(2, 2) = 0;
+	ComputedWorldPosition = Matrix4D::OneMatrix();
+	ComputedWorldRotation = Matrix4D::OneMatrix();
+	ComputedWorldScale = Matrix4D::OneMatrix();
+
+	ComputedWorldPosition(2, 2) = 0;
 
 	ComputeTransform();
 }
 
-void CTransform2DComponent::SetPosition(const Vector2D &newPosition)
+void CTransform2DComponent::SetRelativePosition(const Vector2D &InPosition)
 {
-	mPosition = newPosition;
+	RelativePosition = InPosition;
 	ComputeTransform();
+
+	if (ChildComponent)
+	{
+		ChildComponent->ComputeTransform();
+	}
 }
 
-void CTransform2DComponent::SetScale(const Vector2D& newScale)
+void CTransform2DComponent::SetRelativeRotationAngle(float InRotationAngle)
 {
-	mScale = newScale;
+	RelativeRotationAngle = InRotationAngle;
 	ComputeTransform();
+
+	if (ChildComponent)
+	{
+		ChildComponent->ComputeTransform();
+	}
 }
 
-void CTransform2DComponent::SetAngle(float newRotationAngle)
+void CTransform2DComponent::SetRelativeScale(const Vector2D& InScale)
 {
-	mRotationAngle = newRotationAngle;
+	RelativeScale = RelativeScale;
 	ComputeTransform();
+
+	if (ChildComponent)
+	{
+		ChildComponent->ComputeTransform();
+	}
 }
 
 void CTransform2DComponent::ComputeTransform()
 {
-	mTransfromPosition(3, 0) = mPosition.X();
-	mTransfromPosition(3, 1) = mPosition.Y();
+	Vector2D	WorldPosition = GetWorldPosition();
+	float		WorldRotationAngle = GetWorldRotationAngle();
+	Vector2D	WorldScale = GetWorldScale();
 
-	const float mRotRad = (mRotationAngle * 3.1415f) / 180.f;
+	ComputedWorldPosition(3, 0) = WorldPosition.X();
+	ComputedWorldPosition(3, 1) = WorldPosition.Y();
 
-	float cosA = cos(mRotRad);
-	float sinA = sin(mRotRad);
+	const float RotRad = (WorldRotationAngle * 3.1415f) / 180.f;
 
-	mTransfromRotation(0, 0) = cosA;
-	mTransfromRotation(0, 1) = sinA;
-	mTransfromRotation(1, 0) = -sinA;
-	mTransfromRotation(1, 1) = cosA;
+	float cosA = cos(RotRad);
+	float sinA = sin(RotRad);
 
-	mTransfromScale(0, 0) = mScale.X();
-	mTransfromScale(1, 1) = mScale.Y();
+	ComputedWorldRotation(0, 0) = cosA;
+	ComputedWorldRotation(0, 1) = sinA;
+	ComputedWorldRotation(1, 0) = -sinA;
+	ComputedWorldRotation(1, 1) = cosA;
 
-	mComputedTransform = mTransfromScale;
-	mComputedTransform = mComputedTransform * mTransfromRotation;
-	mComputedTransform = mComputedTransform * mTransfromPosition;
+	ComputedWorldScale(0, 0) = WorldScale.X();
+	ComputedWorldScale(1, 1) = WorldScale.Y();
+
+	ComponentToWorldTransform = ComputedWorldScale;
+	ComponentToWorldTransform = ComponentToWorldTransform * ComputedWorldRotation;
+	ComponentToWorldTransform = ComponentToWorldTransform * ComputedWorldPosition;
 }
 
-Matrix4D CTransform2DComponent::GetComputedTransform() const
+Matrix4D CTransform2DComponent::GetComputedWorldTransform() const
 {
-	return mComputedTransform;
+	return ComponentToWorldTransform;
+}
+
+void CTransform2DComponent::AttachToComponent(CTransform2DComponent* InParent)
+{
+	AttachedParent = InParent;
+	InParent->SetChildComponent(this);
+}
+
+CTransform2DComponent* CTransform2DComponent::GetChildComponent() const
+{
+	return ChildComponent;
+}
+
+void CTransform2DComponent::SetChildComponent(CTransform2DComponent* InChild)
+{
+	ChildComponent = InChild;
+}	
+
+Vector2D CTransform2DComponent::GetWorldPosition() const
+{
+	return RelativePosition + (AttachedParent ? AttachedParent->GetWorldPosition() : Vector2D::ZeroVector);
+}
+
+Vector2D CTransform2DComponent::GetWorldScale() const
+{
+	if (AttachedParent)
+	{
+		return RelativeScale * AttachedParent->GetWorldScale();
+	}
+	return RelativeScale;
+}
+
+float CTransform2DComponent::GetWorldRotationAngle()
+{
+	return RelativeRotationAngle + (AttachedParent ? AttachedParent->GetWorldRotationAngle() : 0.f);
 }
