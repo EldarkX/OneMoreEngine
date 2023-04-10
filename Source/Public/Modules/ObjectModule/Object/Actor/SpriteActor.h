@@ -6,7 +6,6 @@ class CSpriteComponent;
 
 class ASpriteActor : public AActor
 {
-
 public:
 	ASpriteActor();
 
@@ -16,5 +15,4 @@ public:
 
 protected:
 	CSpriteComponent* mSpriteComponent;
-
 };

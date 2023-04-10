@@ -21,7 +21,6 @@
 #include "DataTypes.h"
 
 #include "Utils/Delegate/MulticastDelegate.h"
-#include "Utils/AssetManager/AssetsManagerUtils.h"
 
 using namespace DelegateLib;
 
@@ -44,15 +43,13 @@ using std::weak_ptr;
 class CollisionManager;
 class RenderManager;
 class InputManager;
-class AssetsManagerUtils;
-
+class AssetManagerUtils;
+class Subsystem;
 class AActor;
 
 class GameEngine
 {
-
 public:
-
 	GameEngine(int window_width, int window_height);
 	GameEngine(GameEngine& gameEngine) = delete;
 	GameEngine(GameEngine&& gameEngine) = delete;
@@ -60,18 +57,14 @@ public:
 	void operator=(const GameEngine& gameEngine) = delete;
 	void operator=(const GameEngine&& gameEngine) = delete;
 
-	int								PreInit();
-
-	virtual int						Init() = 0;
-
+	bool							PreInit();
+	virtual bool					Init() = 0;
 	virtual void					Tick();
 
-	SDL_Window*						GetWindow() const { return mWindow; }
-
-	inline CollisionManager			&GetCollisionManager() const { return *mCollisionManager; }
-	RenderManager					*GetRenderManager() const { return mRenderManager; }
-	InputManager					*GetInputManager() const { return mInputManager; }
-	AssetsManagerUtils				*GetAssetsManagerUtils() const { return mAssetsManagerUtils; }
+	CollisionManager*				GetCollisionManager() const { return mCollisionManager; }
+	RenderManager*					GetRenderManager() const { return mRenderManager; }
+	InputManager*					GetInputManager() const { return mInputManager; }
+	AssetManagerUtils*				GetAssetManagerUtils() const { return mAssetManagerUtils; }
 
 	inline int						GetWindowWidth() const { return WindowWidth; }
 	inline int						GetWindowHeight() const { return WindowHeight; }
@@ -85,7 +78,6 @@ public:
 	void							RemoveActor(AActor * ActorToRemove);
 
 	void							AddObjectToKill(AActor* ActorToKill);
-
 	void							KillActors();
 
 	static GameEngine				*GetGameEngine();
@@ -111,21 +103,18 @@ public:
 	virtual							~GameEngine();
 
 protected:
-
 	EGameStatus						mGameStatus;
 
 	float							DeltaTime;
 
 	bool							mIsActorsUpdating = false;
 
-    SDL_Window						*mWindow;
-	SDL_GLContext					mContext;
-
+	//TODO: replace with OpenGL/DirectX
     SDL_Event						event;
 
+	//TODO: make a settings file
     int								WindowWidth;
     int								WindowHeight;
-
 	int								WindowHalfWidth;
 	int								WindowHalfHeight;
 
@@ -133,10 +122,12 @@ protected:
 	vector<AActor *>				NewActors;
 	vector<AActor *>				ActorsToKill;
 
-	unique_ptr<CollisionManager>	mCollisionManager = nullptr;
+	CollisionManager				*mCollisionManager = nullptr;
 	RenderManager					*mRenderManager = nullptr;
 	InputManager					*mInputManager = nullptr;
-	AssetsManagerUtils				*mAssetsManagerUtils = nullptr;
+	AssetManagerUtils				*mAssetManagerUtils = nullptr;
+
+	vector<Subsystem*>				Subsystems;
 
 	static GameEngine				*thisGameEngine;
 };

@@ -1,21 +1,27 @@
-#include "Modules/CoreModule/CollisionManager.h"
+
+#include "Modules/PhysicsModule/CollisionManager.h"
 
 #include "Modules/ObjectModule/Object/Actor/Actor.h"
-
 #include "Modules/ObjectModule/Object/Actor/Components/CollisionComponent.h"
 
 #include "Modules/MathModule/Vector2D.h"
 
-void CollisionManager::AddAgent(class CCollisionComponent* Agent)
+bool CollisionManager::Initialize()
+{
+	return true;
+}
+
+void CollisionManager::AddAgent(CCollisionComponent* Agent)
 {
 	Agents.push_back(Agent);
 }
 
-void CollisionManager::RemoveAgent(class CCollisionComponent* Agent)
+void CollisionManager::RemoveAgent(CCollisionComponent* Agent)
 {
 	Agents.erase(find(Agents.cbegin(), Agents.cend(), Agent));
 }
 
+//TODO: Should be optimized
 void CollisionManager::CheckAllCollisions()
 {
 	int AgentsAmount = static_cast<int>(Agents.size());
@@ -40,6 +46,7 @@ void CollisionManager::CheckAllCollisions()
 	}
 }
 
+//TODO: There is probably a better algorithms
 bool CollisionManager::AreCollided(CCollisionComponent* Agent1, CCollisionComponent* Agent2)
 {
 	Vector2D LeftUp1;
@@ -61,5 +68,10 @@ bool CollisionManager::AreCollided(CCollisionComponent* Agent1, CCollisionCompon
 		return true;
 	}
 	return false;
+}
+
+void CollisionManager::Terminate()
+{
+	Agents.clear();
 }
 

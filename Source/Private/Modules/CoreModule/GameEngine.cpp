@@ -1,10 +1,12 @@
 
 #include "Modules/CoreModule/GameEngine.h"
-#include "Modules/ObjectModule/Object/Actor/Actor.h"
 
-#include "Modules/CoreModule/CollisionManager.h"
-#include "Modules/RenderModule/RenderManager.h"
 #include "Modules/CoreModule/InputManager.h"
+#include "Modules/PhysicsModule/CollisionManager.h"
+#include "Modules/RenderModule/RenderManager.h"
+#include "Utils/AssetManager/AssetManagerUtils.h"
+
+#include "Modules/ObjectModule/Object/Actor/Actor.h"
 
 GameEngine* GameEngine::thisGameEngine = nullptr;
 
@@ -12,89 +14,77 @@ GameEngine::GameEngine(int window_width, int window_height)
       : WindowWidth(window_width),
 	WindowHeight(window_height)
 {
-	WindowHalfWidth = WindowWidth / 2;
-	WindowHalfHeight = WindowHeight / 2;
-
-	mGameStatus = EGameStatus::GSE_Game;
-	if (PreInit() == -1)
-	{
-		delete this;
-		exit(-1);
-	}
-
+	//TODO: it is better to get rid of singlton conception replacing it with a global entities manager and game modes
 	if (thisGameEngine)
 		static_assert(1);
 	else
 		thisGameEngine = this;
+
+	//TODO: replace with a settings file
+	WindowHalfWidth = WindowWidth / 2;
+	WindowHalfHeight = WindowHeight / 2;
+
+	mGameStatus = EGameStatus::GSE_Game;
+
+	if (!PreInit())
+	{
+		cout << "GameEngine->PreInit() has been failed. Terminate." << endl;
+		delete this;
+		exit(-1);
+	}
 };
 
-int GameEngine::PreInit()
+bool GameEngine::PreInit()
 {
-	if (SDL_Init(SDL_INIT_EVERYTHING) == -1)
+	//Create main subsystems
+	mAssetManagerUtils = new AssetManagerUtils();
+	if (!mAssetManagerUtils)
 	{
-		cout << "Can't init SDL" << endl;
-		return -1;
-	}
-
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
-	
-	// Specify version 3.3
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
-	// Request a color buffer with 8-bits per RGBA channel
-	SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
-	SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
-	SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
-	SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 8);
-
-	// Enable double buffering
-	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-
-	// Force OpenGL to use hardware acceleration
-	SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
-	
-	mWindow = SDL_CreateWindow("Game", 200, 200, WindowWidth, WindowHeight, SDL_WINDOW_OPENGL);
-
-	if (!mWindow)
-	{
-		cout << "Can't create SDL_Window" << endl;
-		return -1;
-	}
-
-	mContext = SDL_GL_CreateContext(mWindow);
-	
-	glewExperimental = GL_TRUE;
-
-	if (glewInit() != GLEW_OK)
-	{
-		SDL_Log("Failed to initialize GLEW.");
+		cout << "GameEngine::PreInit() : Failed to create AssetManagerUtils" << endl;
 		return false;
 	}
+	Subsystems.push_back(mAssetManagerUtils);
 
-	mAssetsManagerUtils = new AssetsManagerUtils();
-	assert(mAssetsManagerUtils != nullptr);
-
-	mRenderManager = new RenderManager(this);
-	assert(mRenderManager != nullptr);
-
-	if (IMG_Init(IMG_INIT_PNG) == -1)
+	mRenderManager = new RenderManager();
+	if (!mRenderManager)
 	{
-		cout << "Can't init IMG" << endl;
-		return -1;
+		cout << "GameEngine::PreInit() : Failed to create RenderManager" << endl;
+		return false;
 	}
+	Subsystems.push_back(mRenderManager);
 
-	mCollisionManager = make_unique<CollisionManager>();
+	mCollisionManager = new CollisionManager();
+	if (!mCollisionManager)
+	{
+		cout << "GameEngine::PreInit() : Failed to create CollisionManager" << endl;
+		return false;
+	}
+	Subsystems.push_back(mCollisionManager);
 
 	mInputManager = new InputManager();
-	assert(mInputManager != nullptr);
-
-	return 1;
+	if (!mInputManager)
+	{
+		cout << "GameEngine::PreInit() : Failed to create InputManager" << endl;
+		return false;
+	}
+	Subsystems.push_back(mInputManager);
+	
+	//Subsystems initialization
+	for (const auto& Subsystem : Subsystems)
+	{
+		if (!Subsystem->Initialize())
+		{
+			return false;
+		}
+	}
+	return true;
 }
 
+//Update Method pattern
 void GameEngine::Tick()
 {
     auto			mTicksCount = SDL_GetTicks();
-	auto			second = 0.;
+	double			second = 0.f;
 
     unsigned int	nbFrames = 0; 
 
@@ -108,19 +98,20 @@ void GameEngine::Tick()
 
 		if (DEBUG_SHOW_FPS)
 		{
-			nbFrames++;
+			++nbFrames;
 
 			second += DeltaTime;
 
 			if (second >= 1)
 			{
-				second = 0.;
+				second = 0.f;
 				cout << "FPS: " << nbFrames << endl;
 				nbFrames = 0;
 			}
 		}
 
 	    // INPUT HANDLE
+		//TODO: use another thread and library
 		if (SDL_PollEvent(&event))
 		{
 			if (event.type == SDL_QUIT || event.key.keysym.sym == SDL_KeyCode::SDLK_ESCAPE)
@@ -153,9 +144,7 @@ void GameEngine::Tick()
 			KillActors();
 			
 			//DRAWING
-			mRenderManager->DrawBackBuffer();
-			mRenderManager->DrawFrontBuffer();
-			mRenderManager->SwitchBuffers();
+			mRenderManager->RenderWindow();
 		}
     }
 }
@@ -196,21 +185,12 @@ GameEngine::~GameEngine()
 	Actors.clear();
 	NewActors.clear();
 
-	if (mAssetsManagerUtils)
-		delete mAssetsManagerUtils;
-
-	if (mRenderManager)
-		delete mRenderManager;
-
-	if (mInputManager)
-		delete mInputManager;
-
-	if (mContext)
-		SDL_GL_DeleteContext(mContext);
-
-	if (mWindow)
-		SDL_DestroyWindow(mWindow);
-
-	SDL_Quit();
+	while (Subsystems.size())
+	{
+		auto* Subsystem = Subsystems[0];
+		Subsystems.erase(find(Subsystems.begin(), Subsystems.end(), Subsystem));
+		Subsystem->Terminate();
+		delete Subsystem;
+	}
 }
 

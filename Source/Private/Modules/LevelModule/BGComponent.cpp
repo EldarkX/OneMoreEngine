@@ -27,5 +27,9 @@ void BGComponent::Tick(float deltaTime)
 			bgText.mOffsetX = (static_cast<int>(mBGTextures.size()) - 1) * GameEngine::GetGameEngine()->GetWindowWidth() - 1.f;
 		}
 	}
-	
+}
+
+BGComponent::~BGComponent()
+{
+	mBGTextures.clear();
 }

@@ -20,7 +20,6 @@ struct Animation
 
 class CAnimSpriteComponent : public CSpriteComponent
 {
-
 public:
 	int											GetAnimFPS() const { return CurrentAnimFps; }
 	void										SetAnimFPS(int AnimFPS) { CurrentAnimFps = AnimFPS; }
@@ -40,7 +39,6 @@ public:
 	virtual void								BeginPlay() override;
 
 	~CAnimSpriteComponent();
-
 protected:
 	std::map<string, Animation*>				Animations;
 	

@@ -1,6 +1,8 @@
+
 #include "Modules/ObjectModule/Object/Actor/Components/SpriteComponent.h"
 
 #include "Modules/ObjectModule/Object/Actor/Actor.h"
+#include "Modules/ObjectModule/Object/Actor/Components/Transform2DComponent.h"
 #include "Modules/RenderModule/RenderManager.h"
 
 #include "Modules/RenderModule/Shader.h"
@@ -24,8 +26,7 @@ void CSpriteComponent::Draw(Shader* shader)
 		scale(0, 0) = static_cast<float>(GetTexture()->GetWidth());
 		scale(1, 1) = static_cast<float>(GetTexture()->GetHeight());
 
-		if (Texture)
-			Texture->SetActive();
+		Texture->SetActive();
 
 		Matrix4D world = scale * mOwner->GetActorTransform()->GetComputedTransform();
 

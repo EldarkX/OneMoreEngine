@@ -95,6 +95,4 @@ CAnimSpriteComponent::~CAnimSpriteComponent()
 	SetTexture(nullptr);
 }
 
-Animation::~Animation()
-{
-}
+Animation::~Animation() {}

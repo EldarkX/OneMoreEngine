@@ -6,18 +6,58 @@
 
 #include "Modules/ObjectModule/Object/Actor/Components/SpriteComponent.h"
 
-RenderManager::RenderManager(GameEngine* gameEngine)
-	: mGameEngine(gameEngine)
+bool RenderManager::Initialize()
+{
+	if (!InitializeLibrary())
+		return false;
+
+	if (!CreateGameWindow())
+		return false;
+
+	if (!InitializeSpriteShader())
+		return false;
+
+	return true;
+}
+
+bool RenderManager::InitializeLibrary()
+{
+	if (SDL_Init(SDL_INIT_EVERYTHING) == -1)
+	{
+		cout << "RenderManager::InitializeLibrary() : Cannot init SDL" << endl;
+		return false;
+	}
+
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+
+	// Specify version 3.3
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
+	// Request a color buffer with 8-bits per RGBA channel
+	SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
+	SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
+	SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
+	SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 8);
+
+	// Enable double buffering
+	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+
+	// Force OpenGL to use hardware acceleration
+	SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
+
+	return true;
+}
+
+bool RenderManager::InitializeSpriteShader()
 {
 	mSpriteShader = new Shader();
 
-	if (!mSpriteShader->Load("Assets\\Shaders\\Sprite.vert", "Assets\\Shaders\\Sprite.frag"))
+	//TODO: change with asset manager to avoid hard code paths
+	if (!mSpriteShader || !mSpriteShader->Load("Assets\\Shaders\\Sprite.vert", "Assets\\Shaders\\Sprite.frag"))
 	{
-		cout << "Shader hasn't been loaded!" << endl;
-		exit(-1);
+		cout << "RenderManager::RenderManager() : Shader has not been loaded!" << endl;
+		return false;
 	}
-
-	mSpriteShader->SetActive();
 
 	float vertexBuffer[] = {
 		-0.5f, 0.5f, 0.f, 0.f, 0.f,
@@ -31,38 +71,53 @@ RenderManager::RenderManager(GameEngine* gameEngine)
 		2, 3, 0
 	};
 
+	mSpriteShader->SetActive();
+
 	mSpriteVerts = new VertexArray(vertexBuffer, 4, indexBuffer, 6);
 	mSpriteVerts->SetActive();
 
-	Matrix4D viewProj = CreateSimpleViewProj(static_cast<float>(gameEngine->GetWindowWidth()),
-		static_cast<float>(gameEngine->GetWindowHeight()));
+	Matrix4D viewProj = CreateSimpleViewProj(static_cast<float>(GameEngine::GetGameEngine()->GetWindowWidth()),
+		static_cast<float>(GameEngine::GetGameEngine()->GetWindowHeight()));
 	mSpriteShader->SetMatrixUniform("uViewProj", viewProj);
+
+	return true;
 }
 
-void RenderManager::DrawBackBuffer()
+bool RenderManager::CreateGameWindow()
 {
-	glEnable(GL_BLEND);
-	glBlendFunc(
-		GL_SRC_ALPHA,          // srcFactor is srcAlpha
-		GL_ONE_MINUS_SRC_ALPHA // dstFactor is 1 - srcAlpha
-	);
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT);
-}
+	//TODO: 200 should be changed with proper settings (fullscreen, borderless, window)
+	mWindow = SDL_CreateWindow("Game", 200, 200, GameEngine::GetGameEngine()->GetWindowWidth(),
+		GameEngine::GetGameEngine()->GetWindowHeight(), SDL_WINDOW_OPENGL);
 
-void RenderManager::DrawFrontBuffer()
-{
-	mSpriteShader->SetActive();
- 	mSpriteVerts->SetActive();
-	for (auto Drawable : mDrawableComponents)
+	if (!mWindow)
 	{
-		Drawable->Draw(mSpriteShader);
+		cout << "RenderManager::CreateWindow() : Cannot create SDL_Window" << endl;
+		return false;
 	}
-}
 
-void RenderManager::SwitchBuffers()
-{
-	SDL_GL_SwapWindow(mGameEngine->GetWindow());
+	mContext = SDL_GL_CreateContext(mWindow);
+
+	if (!mContext)
+	{
+		cout << "RenderManager::CreateWindow() : Cannot create SDL_GL_Context" << endl;
+		return false;
+	}
+
+	glewExperimental = GL_TRUE;
+
+	if (glewInit() != GLEW_OK)
+	{
+		SDL_Log("RenderManager::CreateGameWindow() : Failed to initialize GLEW.");
+		return false;
+	}
+
+	if (IMG_Init(IMG_INIT_PNG) == -1)
+	{
+		cout << "RenderManager::CreateGameWindow() : Cannot init IMG" << endl;
+		return false;
+	}
+
+	return true;
 }
 
 void RenderManager::AddDrawableComponent(CSpriteComponent *NewSprite)
@@ -73,6 +128,7 @@ void RenderManager::AddDrawableComponent(CSpriteComponent *NewSprite)
 	}
 	else
 	{
+		//TODO: binary search ( O(log(n)) instead O(n) ) 
 		for (auto iter = mDrawableComponents.cbegin(); iter < mDrawableComponents.cend(); ++iter)
 		{
 			if (NewSprite->GetDrawOrder() < (*iter)->GetDrawOrder())
@@ -90,6 +146,60 @@ void RenderManager::RemoveDrawableComponent(CSpriteComponent *Sprite)
 	mDrawableComponents.erase(find(mDrawableComponents.cbegin(), mDrawableComponents.cend(), Sprite));
 }
 
+void RenderManager::RenderWindow()
+{
+	DrawBackBuffer();
+	DrawFrontBuffer();
+	SwitchBuffers();
+}
+
+void RenderManager::DrawBackBuffer()
+{
+	glEnable(GL_BLEND);
+	glBlendFunc(
+		GL_SRC_ALPHA,          // srcFactor is srcAlpha
+		GL_ONE_MINUS_SRC_ALPHA // dstFactor is 1 - srcAlpha
+	);
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT);
+}
+
+void RenderManager::DrawFrontBuffer()
+{
+	mSpriteShader->SetActive();
+	mSpriteVerts->SetActive();
+
+	for (const auto& Drawable : mDrawableComponents)
+	{
+		Drawable->Draw(mSpriteShader);
+	}
+}
+
+void RenderManager::SwitchBuffers()
+{
+	SDL_GL_SwapWindow(mWindow);
+}
+
+void RenderManager::Terminate()
+{
+	mDrawableComponents.clear();
+
+	delete mSpriteVerts;
+	delete mSpriteShader;
+
+	if (mContext)
+	{
+		SDL_GL_DeleteContext(mContext);
+	}
+
+	if (mWindow)
+	{
+		SDL_DestroyWindow(mWindow);
+	}
+
+	SDL_Quit();
+}
+
 Matrix4D RenderManager::CreateSimpleViewProj(float width, float height)
 {
 	return Matrix4D({
@@ -100,9 +210,4 @@ Matrix4D RenderManager::CreateSimpleViewProj(float width, float height)
 	});
 }
 
-RenderManager::~RenderManager()
-{
-	delete mSpriteVerts;
-	delete mSpriteShader;
-}
 

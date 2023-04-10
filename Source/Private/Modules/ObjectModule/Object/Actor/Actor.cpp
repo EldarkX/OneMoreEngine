@@ -1,9 +1,9 @@
+
 #include "Modules/ObjectModule/Object/Actor/Actor.h"
 
 #include "Modules/ObjectModule/Object/Actor/Components/SpriteComponent.h"
 #include "Modules/ObjectModule/Object/Actor/Components/CollisionComponent.h"
-
-#include <algorithm>
+#include "Modules/ObjectModule/Object/Actor/Components/Transform2DComponent.h"
 
 AActor::AActor()
 {
@@ -14,10 +14,30 @@ void AActor::BeginPlay() {}
 
 void AActor::Tick(float deltaTime)
 {
-	for (auto Comp : mComponents)
+	for (const auto &Comp : mComponents)
 	{
 		Comp->Tick(deltaTime);
 	}
+}
+
+Vector2D AActor::GetActorPosition() const
+{
+	return mTransformComponent->GetPosition();
+}
+
+Vector2D AActor::GetActorScale() const
+{
+	return mTransformComponent->GetScale();
+}
+
+void AActor::SetActorPosition(Vector2D newPosition)
+{
+	mTransformComponent->SetPosition(newPosition);
+}
+
+void AActor::SetActorScale(Vector2D newScale)
+{
+	mTransformComponent->SetScale(newScale);
 }
 
 void AActor::RemoveComponent(CBaseComponent* Component)

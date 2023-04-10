@@ -8,25 +8,25 @@
     <Filter Include="Resource Files\Assets">
       <UniqueIdentifier>{e6335b7d-d5af-4d0f-91bc-34f93d973fe2}</UniqueIdentifier>
     </Filter>
-	<Filter Include="Source">
+    <Filter Include="Source">
       <UniqueIdentifier>{a74e3c8e-920b-4a2a-ab29-64041d5c7148}</UniqueIdentifier>
     </Filter>
-	<Filter Include="Source\Public">
+    <Filter Include="Source\Public">
       <UniqueIdentifier>{a74e3c8e-923b-4a2a-ab22-6d041d5c7148}</UniqueIdentifier>
     </Filter>
-	<Filter Include="Source\Private">
+    <Filter Include="Source\Private">
       <UniqueIdentifier>{a74eac8e-9a3b-422a-ab22-6d041d5c7148}</UniqueIdentifier>
     </Filter>
-	<Filter Include="Source\Private\Modules">
+    <Filter Include="Source\Private\Modules">
       <UniqueIdentifier>{a74eac8e-9a3b-422a-ab22-6d041dasd148}</UniqueIdentifier>
     </Filter>
-	<Filter Include="Source\Public\Modules">
+    <Filter Include="Source\Public\Modules">
       <UniqueIdentifier>{a74eac8e-aa3b-4227-ab22-6d041dasd148}</UniqueIdentifier>
     </Filter>
-	<Filter Include="Source\Private\Utils">
+    <Filter Include="Source\Private\Utils">
       <UniqueIdentifier>{a74eac8e-553b-422a-ab22-6d041dasd148}</UniqueIdentifier>
     </Filter>
-	<Filter Include="Source\Public\Utils">
+    <Filter Include="Source\Public\Utils">
       <UniqueIdentifier>{a74eac8e-663b-4227-ab22-6d041dasd148}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\Private\Modules\CoreModule">
@@ -95,6 +95,15 @@
     <Filter Include="Source\Public\Utils\AssetManager">
       <UniqueIdentifier>{e76a0f7b-775e-4e32-bd94-6dede36f90df}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Private\Modules\PhysicsModule">
+      <UniqueIdentifier>{61b3e84c-2514-4af2-a7b1-9d8a50660db3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Public\Modules\PhysicsModule">
+      <UniqueIdentifier>{75ff458e-6c64-4ba7-88cb-a11a8a29864b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Private\Utils\AssetManager">
+      <UniqueIdentifier>{f5afd739-db47-4157-9f0f-ea18c7c6e503}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Private\Modules\CoreModule\GameEngine.cpp">
@@ -116,9 +125,6 @@
       <Filter>Source\Private\Modules\ObjectModule\Object\Actor\Components</Filter>
     </ClCompile>
     <ClCompile Include="Source\Private\Modules\CoreModule\DataTypes.cpp">
-      <Filter>Source\Private\Modules\CoreModule</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Private\Modules\CoreModule\CollisionManager.cpp">
       <Filter>Source\Private\Modules\CoreModule</Filter>
     </ClCompile>
     <ClCompile Include="Source\Private\Modules\ObjectModule\Object\Actor\Components\CollisionComponent.cpp">
@@ -172,6 +178,15 @@
     <ClCompile Include="Source\Private\Modules\ObjectModule\Object\Actor\AnimSpriteActor.cpp">
       <Filter>Source\Private\Modules\ObjectModule\Object\Actor</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Private\Modules\PhysicsModule\CollisionManager.cpp">
+      <Filter>Source\Private\Modules\PhysicsModule</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Private\Modules\CoreModule\Subsystem.cpp">
+      <Filter>Source\Private\Modules\CoreModule</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Private\Utils\AssetManager\AssetManagerUtils.cpp">
+      <Filter>Source\Private\Utils\AssetManager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Public\Modules\CoreModule\GameEngine.h">
@@ -193,9 +208,6 @@
       <Filter>Source\Public\Modules\ObjectModule\Object\Actor\Components</Filter>
     </ClInclude>
     <ClInclude Include="Source\Public\Modules\CoreModule\DataTypes.h">
-      <Filter>Source\Public\Modules\CoreModule</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Public\Modules\CoreModule\CollisionManager.h">
       <Filter>Source\Public\Modules\CoreModule</Filter>
     </ClInclude>
     <ClInclude Include="Source\Public\Modules\ObjectModule\Object\Actor\Components\CollisionComponent.h">
@@ -249,7 +261,7 @@
     <ClInclude Include="Source\Public\Modules\RenderModule\Shader.h">
       <Filter>Source\Public\Modules\RenderModule</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Public\Utils\AssetManager\AssetsManagerUtils.h">
+    <ClInclude Include="Source\Public\Utils\AssetManager\AssetManagerUtils.h">
       <Filter>Source\Public\Utils\AssetManager</Filter>
     </ClInclude>
     <ClInclude Include="Source\Public\Modules\MathModule\Matrix3.h">
@@ -267,6 +279,12 @@
     <ClInclude Include="Source\Public\Modules\ObjectModule\Object\Actor\AnimSpriteActor.h">
       <Filter>Source\Public\Modules\ObjectModule\Object\Actor</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Public\Modules\PhysicsModule\CollisionManager.h">
+      <Filter>Source\Public\Modules\PhysicsModule</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Public\Modules\CoreModule\Subsystem.h">
+      <Filter>Source\Public\Modules\CoreModule</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Assets\Shaders\Sprite.frag">
@@ -275,8 +293,5 @@
     <None Include="..\Assets\Shaders\Sprite.vert">
       <Filter>Resource Files\Assets\Shaders</Filter>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="../.gitignore"/>
   </ItemGroup>
 </Project>

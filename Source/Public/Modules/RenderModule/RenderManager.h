@@ -1,34 +1,45 @@
 #pragma once
 
-#include "Modules/CoreModule/GameEngine.h"
+#include "Modules/CoreModule/Subsystem.h"
 
-class RenderManager
+class CSpriteComponent;
+class VertexArray;
+class Shader;
+
+class RenderManager : public Subsystem
 {
-
 public:
+	RenderManager() {}
 
-	RenderManager(GameEngine *gameEngine);
+	virtual bool					Initialize() override;
+
+	void							AddDrawableComponent(CSpriteComponent *drawableComponent);
+	void							RemoveDrawableComponent(CSpriteComponent * drawableComponent);
+
+	void							RenderWindow();
+
+	inline SDL_Window*				GetWindow() const { return mWindow; }
+
+	virtual void					Terminate() override;
+
+protected:
+	bool							InitializeLibrary();
+	bool							InitializeSpriteShader();
+
+	bool							CreateGameWindow();
 
 	void							DrawBackBuffer();
-
 	void							DrawFrontBuffer();
-
 	void							SwitchBuffers();
-
-	void							AddDrawableComponent(class CSpriteComponent *);
-
-	void							RemoveDrawableComponent(class CSpriteComponent *);
 
 	Matrix4D						CreateSimpleViewProj(float width, float height);
 
-	virtual							~RenderManager();
+protected:
+	SDL_Window*						mWindow = nullptr;
+	SDL_GLContext					mContext = nullptr;
 
-private:
+	vector<CSpriteComponent*>		mDrawableComponents;
 
-	vector<class CSpriteComponent *>	mDrawableComponents;
-
-	class VertexArray				*mSpriteVerts;
-	class Shader					*mSpriteShader;
-
-	GameEngine						*mGameEngine;
+	VertexArray*					mSpriteVerts = nullptr;
+	Shader*							mSpriteShader = nullptr;
 };

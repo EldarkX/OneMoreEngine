@@ -19,10 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\Private\Modules\CoreModule\CollisionManager.cpp" />
     <ClCompile Include="Source\Private\Modules\CoreModule\DataTypes.cpp" />
     <ClCompile Include="Source\Private\Modules\CoreModule\GameEngine.cpp" />
     <ClCompile Include="Source\Private\Modules\CoreModule\InputManager.cpp" />
+    <ClCompile Include="Source\Private\Modules\CoreModule\Subsystem.cpp" />
     <ClCompile Include="Source\Private\Modules\LevelModule\BGComponent.cpp" />
     <ClCompile Include="Source\Private\Modules\MathModule\Matrix3.cpp" />
     <ClCompile Include="Source\Private\Modules\MathModule\Matrix4.cpp" />
@@ -39,17 +39,19 @@
     <ClCompile Include="Source\Private\Modules\ObjectModule\Object\Components\BaseComponent.cpp" />
     <ClCompile Include="Source\Private\Modules\ObjectModule\Object\Components\InputComponent.cpp" />
     <ClCompile Include="Source\Private\Modules\ObjectModule\Object\Object.cpp" />
+    <ClCompile Include="Source\Private\Modules\PhysicsModule\CollisionManager.cpp" />
     <ClCompile Include="Source\Private\Modules\RenderModule\RenderManager.cpp" />
     <ClCompile Include="Source\Private\Modules\RenderModule\Shader.cpp" />
     <ClCompile Include="Source\Private\Modules\RenderModule\Texture.cpp" />
     <ClCompile Include="Source\Private\Modules\RenderModule\VertexArray.cpp" />
+    <ClCompile Include="Source\Private\Utils\AssetManager\AssetManagerUtils.cpp" />
     <ClCompile Include="Source\Private\Utils\Delegate\MulticastDelegateBase.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\Public\Modules\CoreModule\CollisionManager.h" />
     <ClInclude Include="Source\Public\Modules\CoreModule\DataTypes.h" />
     <ClInclude Include="Source\Public\Modules\CoreModule\GameEngine.h" />
     <ClInclude Include="Source\Public\Modules\CoreModule\InputManager.h" />
+    <ClInclude Include="Source\Public\Modules\CoreModule\Subsystem.h" />
     <ClInclude Include="Source\Public\Modules\LevelModule\BGComponent.h" />
     <ClInclude Include="Source\Public\Modules\MathModule\Matrix3.h" />
     <ClInclude Include="Source\Public\Modules\MathModule\Matrix4.h" />
@@ -66,11 +68,12 @@
     <ClInclude Include="Source\Public\Modules\ObjectModule\Object\Actor\SpriteActor.h" />
     <ClInclude Include="Source\Public\Modules\ObjectModule\Object\Components\BaseComponent.h" />
     <ClInclude Include="Source\Public\Modules\ObjectModule\Object\Components\InputComponent.h" />
+    <ClInclude Include="Source\Public\Modules\PhysicsModule\CollisionManager.h" />
     <ClInclude Include="Source\Public\Modules\RenderModule\RenderManager.h" />
     <ClInclude Include="Source\Public\Modules\RenderModule\Shader.h" />
     <ClInclude Include="Source\Public\Modules\RenderModule\Texture.h" />
     <ClInclude Include="Source\Public\Modules\RenderModule\VertexArray.h" />
-    <ClInclude Include="Source\Public\Utils\AssetManager\AssetsManagerUtils.h" />
+    <ClInclude Include="Source\Public\Utils\AssetManager\AssetManagerUtils.h" />
     <ClInclude Include="Source\Public\Utils\Delegate\DataTypes.h" />
     <ClInclude Include="Source\Public\Utils\Delegate\Delegate.h" />
     <ClInclude Include="Source\Public\Utils\Delegate\DelegateSp.h" />
@@ -105,7 +108,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
