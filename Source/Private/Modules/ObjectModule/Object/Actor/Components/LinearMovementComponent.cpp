@@ -10,8 +10,7 @@ void CLinearMovementComponent::Tick(float deltaTime)
 
 void CLinearMovementComponent::Movement(float deltaTime)
 {
-	GetOwner()->SetActorPosition(GetOwner()->GetActorPosition() +
-		Vector2D(mVelocity * mSpeed * deltaTime));
+	GetOwner()->SetActorPosition(GetOwner()->GetActorPosition() + Vector2D(mVelocity * mSpeed * deltaTime));
 }
 
 void CLinearMovementComponent::SetSpeed(float newSpeed)

@@ -1,10 +1,16 @@
+
 #include "Modules/CoreModule/InputManager.h"
 
 #include "Modules/ObjectModule/Object/Components/InputComponent.h"
 
-void    InputManager::HandleInput(const SDL_Event *event)
+bool InputManager::Initialize()
 {
-	for (auto Input : mInputComponents)
+	return true;
+}
+
+void InputManager::HandleInput(const SDL_Event *event)
+{
+	for (const auto &Input : mInputComponents)
 	{
 		Input->ProccessInput(event);
 	}
@@ -18,4 +24,9 @@ void InputManager::AddInputComponent(CInputComponent *Input)
 void InputManager::RemoveInputComponent(CInputComponent* Input)
 {
 	mInputComponents.erase(find(mInputComponents.cbegin(), mInputComponents.cend(), Input));
+}
+
+void InputManager::Terminate()
+{
+	mInputComponents.clear();
 }

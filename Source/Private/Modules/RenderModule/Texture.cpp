@@ -1,14 +1,15 @@
 
 #include "Modules/RenderModule/Texture.h"
 
-OTexture::OTexture(const std::string& path)
+OTexture::OTexture(const string& path)
 {
 	Load(path);
 }
 
-bool OTexture::Load(const std::string& path)
+bool OTexture::Load(const string& path)
 {
 	SDL_Surface* Image;
+	//TODO: replace with a proper loading system -> AssetManagerUtils
 	Image = IMG_Load(path.c_str());
 	if (!Image)
 	{
@@ -44,4 +45,3 @@ OTexture::~OTexture()
 {
 	Unload();
 }
-

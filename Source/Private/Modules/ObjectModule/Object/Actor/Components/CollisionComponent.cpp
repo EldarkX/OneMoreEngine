@@ -1,7 +1,7 @@
 
 #include "Modules/ObjectModule/Object/Actor/Components/CollisionComponent.h"
 
-#include "Modules/CoreModule/CollisionManager.h"
+#include "Modules/PhysicsModule/CollisionManager.h"
 #include "Modules/ObjectModule/Object/Actor/Actor.h"
 
 void CCollisionComponent::TriggerCollision(class AActor* AnotherActor, CCollisionComponent* AnotherCollisionComponent)
@@ -11,7 +11,7 @@ void CCollisionComponent::TriggerCollision(class AActor* AnotherActor, CCollisio
 
 void CCollisionComponent::BeginPlay()
 {
-	GameEngine::GetGameEngine()->GetCollisionManager().AddAgent(this);
+	GameEngine::GetGameEngine()->GetCollisionManager()->AddAgent(this);
 }
 
 void CCollisionComponent::SetCollisionResponseToChannel(ECollisionChannel CollisionChannel, ECollisionType newResponse)
@@ -34,6 +34,7 @@ bool CCollisionComponent::CanCollidedWith(CCollisionComponent* otherComp)
 
 bool CCollisionComponent::IsCollisionEnabled()
 {
+	//TODO: Can be calculated once when the map is changed, and stored as a bool var
 	for (const auto &ResponseToChannel : *mCollisionResponses)
 	{
 		if (ResponseToChannel.second == ECollisionType::CTE_Collide)
@@ -44,5 +45,5 @@ bool CCollisionComponent::IsCollisionEnabled()
 
 CCollisionComponent::~CCollisionComponent()
 {
-	GameEngine::GetGameEngine()->GetCollisionManager().RemoveAgent(this);
+	GameEngine::GetGameEngine()->GetCollisionManager()->RemoveAgent(this);
 }
