@@ -5,6 +5,7 @@
 #include "Modules/RenderModule/Shader.h"
 
 #include "Modules/ObjectModule/Object/Actor/Components/SpriteComponent.h"
+#include "Utils/AssetManager/AssetManagerUtils.h"
 
 bool RenderManager::Initialize()
 {
@@ -52,8 +53,9 @@ bool RenderManager::InitializeSpriteShader()
 {
 	mSpriteShader = new Shader();
 
-	//TODO: change with asset manager to avoid hard code paths
-	if (!mSpriteShader || !mSpriteShader->Load("Assets\\Shaders\\Sprite.vert", "Assets\\Shaders\\Sprite.frag"))
+	string ProjectDir = GameEngine::GetGameEngine()->GetAssetManagerUtils()->GetProjectDir();
+
+	if (!mSpriteShader->Load(ProjectDir + "\\Assets\\Shaders\\Sprite.vert", ProjectDir + "\\Assets\\Shaders\\Sprite.frag"))
 	{
 		cout << "RenderManager::RenderManager() : Shader has not been loaded!" << endl;
 		return false;
