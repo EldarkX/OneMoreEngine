@@ -1,11 +1,16 @@
 
 #include "Modules/RenderModule/RenderManager.h"
 
+#include "Modules/CoreModule/GameEngine.h"
+
 #include "Modules/RenderModule/VertexArray.h"
 #include "Modules/RenderModule/Shader.h"
 
 #include "Modules/ObjectModule/Object/Actor/Components/SpriteComponent.h"
 #include "Utils/AssetManager/AssetManagerUtils.h"
+
+#include <iostream>
+#include "glew.h"
 
 bool RenderManager::Initialize()
 {
@@ -25,7 +30,7 @@ bool RenderManager::InitializeLibrary()
 {
 	if (SDL_Init(SDL_INIT_EVERYTHING) == -1)
 	{
-		cout << "RenderManager::InitializeLibrary() : Cannot init SDL" << endl;
+		std::cout << "RenderManager::InitializeLibrary() : Cannot init SDL" << std::endl;
 		return false;
 	}
 
@@ -53,11 +58,10 @@ bool RenderManager::InitializeSpriteShader()
 {
 	mSpriteShader = new Shader();
 
-	string ProjectDir = GameEngine::GetGameEngine()->GetAssetManagerUtils()->GetProjectDir();
-
-	if (!mSpriteShader->Load(ProjectDir + "\\Assets\\Shaders\\Sprite.vert", ProjectDir + "\\Assets\\Shaders\\Sprite.frag"))
+	//TODO: change with asset manager to avoid hard code paths
+	if (!mSpriteShader->Load("Assets\\Shaders\\Sprite.vert", "Assets\\Shaders\\Sprite.frag"))
 	{
-		cout << "RenderManager::RenderManager() : Shader has not been loaded!" << endl;
+		std::cout << "RenderManager::RenderManager() : Shader has not been loaded!" << std::endl;
 		return false;
 	}
 
@@ -93,7 +97,7 @@ bool RenderManager::CreateGameWindow()
 
 	if (!mWindow)
 	{
-		cout << "RenderManager::CreateWindow() : Cannot create SDL_Window" << endl;
+		std::cout << "RenderManager::CreateWindow() : Cannot create SDL_Window" << std::endl;
 		return false;
 	}
 
@@ -101,7 +105,7 @@ bool RenderManager::CreateGameWindow()
 
 	if (!mContext)
 	{
-		cout << "RenderManager::CreateWindow() : Cannot create SDL_GL_Context" << endl;
+		std::cout << "RenderManager::CreateWindow() : Cannot create SDL_GL_Context" << std::endl;
 		return false;
 	}
 
@@ -115,7 +119,7 @@ bool RenderManager::CreateGameWindow()
 
 	if (IMG_Init(IMG_INIT_PNG) == -1)
 	{
-		cout << "RenderManager::CreateGameWindow() : Cannot init IMG" << endl;
+		std::cout << "RenderManager::CreateGameWindow() : Cannot init IMG" << std::endl;
 		return false;
 	}
 

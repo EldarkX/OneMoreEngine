@@ -1,11 +1,15 @@
 #pragma once
 
 #include "Modules/ObjectModule/Object.h"
-#include "Modules/MathModule/Vector2D.h"
 
+#include "Modules/MathModule/Vector2D.h"
 #include "Modules/ObjectModule/Object/Components/BaseComponent.h"
+#include "Utils/Delegate/MulticastDelegate.h"
+
+#include <vector>
 
 class CTransform2DComponent;
+class AActor;
 
 class AActor : public OObject
 {
@@ -35,9 +39,7 @@ public:
 	bool						GetIsPendingToKill() const { return mIsPendingToKill; }
 	void						SetIsPendingToKill(bool newIsPendingToKill);
 
-	vector<CBaseComponent*>		GetComponents() const { return mComponents; }
-
-	MulticastDelegate1<AActor*>	OnStartBeingPendingToKill;
+	std::vector<CBaseComponent*>	&GetComponents() { return mComponents; }
 
 	template<class T>
 	T* AddComponent()
@@ -56,9 +58,11 @@ public:
 
 	virtual void					Destroy() override;
 									~AActor();
+public:
+	DelegateLib::MulticastDelegate1<AActor*>	OnStartBeingPendingToKill;
 
 protected:
-	vector<CBaseComponent*>			mComponents;
+	std::vector<CBaseComponent*>	mComponents;
 	CTransform2DComponent*			mTransformComponent;
 	bool							mIsPendingToKill = false;
 

@@ -3,6 +3,8 @@
 
 #include "Modules/ObjectModule/Object/Actor/Actor.h"
 
+#include <algorithm>
+
 void CLinearMovementComponent::Tick(float deltaTime)
 {
 	Movement(deltaTime);

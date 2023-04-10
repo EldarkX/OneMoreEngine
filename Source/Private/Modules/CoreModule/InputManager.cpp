@@ -3,6 +3,10 @@
 
 #include "Modules/ObjectModule/Object/Components/InputComponent.h"
 
+#include <algorithm>
+
+#include "SDL_events.h"
+
 bool InputManager::Initialize()
 {
 	return true;

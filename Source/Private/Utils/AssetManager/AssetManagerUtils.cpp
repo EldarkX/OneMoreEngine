@@ -6,11 +6,11 @@ bool AssetManagerUtils::Initialize()
 	return true;
 }
 
-string AssetManagerUtils::GetProjectDir()
+std::string AssetManagerUtils::GetProjectDir()
 {
 	if (mProjectDir.empty())
 	{
-		char result[MAX_PATH];
+		char result[_MAX_PATH];
 		auto fullpath = _fullpath(result, "", _MAX_PATH);
 		mProjectDir = result;
 	}

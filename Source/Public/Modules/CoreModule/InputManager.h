@@ -2,6 +2,10 @@
 
 #include "Modules/CoreModule/Subsystem.h"
 
+#include <vector>
+
+#include "SDL.h"
+
 class CInputComponent;
 
 class InputManager : public Subsystem
@@ -16,6 +20,6 @@ public:
 
 	virtual void	Terminate() override;
 private:
-	vector<CInputComponent*> mInputComponents;
+	std::vector<CInputComponent*>	mInputComponents;
 };
 

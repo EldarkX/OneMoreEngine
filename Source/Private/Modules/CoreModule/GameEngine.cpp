@@ -8,13 +8,15 @@
 
 #include "Modules/ObjectModule/Object/Actor/Actor.h"
 
+#include <iostream>
+
 GameEngine* GameEngine::thisGameEngine = nullptr;
 
 GameEngine::GameEngine(int window_width, int window_height)
       : WindowWidth(window_width),
 	WindowHeight(window_height)
 {
-	//TODO: it is better to get rid of singlton conception replacing it with a global entities manager and game modes
+	//TODO: it is better to get rid of singleton conception replacing it with a global entities manager and game modes
 	if (thisGameEngine)
 		static_assert(1);
 	else
@@ -28,7 +30,7 @@ GameEngine::GameEngine(int window_width, int window_height)
 
 	if (!PreInit())
 	{
-		cout << "GameEngine->PreInit() has been failed. Terminate." << endl;
+		std::cout << "GameEngine->PreInit() has been failed. Terminate." << std::endl;
 		delete this;
 		exit(-1);
 	}
@@ -40,7 +42,7 @@ bool GameEngine::PreInit()
 	mAssetManagerUtils = new AssetManagerUtils();
 	if (!mAssetManagerUtils)
 	{
-		cout << "GameEngine::PreInit() : Failed to create AssetManagerUtils" << endl;
+		std::cout << "GameEngine::PreInit() : Failed to create AssetManagerUtils" << std::endl;
 		return false;
 	}
 	Subsystems.push_back(mAssetManagerUtils);
@@ -48,7 +50,7 @@ bool GameEngine::PreInit()
 	mRenderManager = new RenderManager();
 	if (!mRenderManager)
 	{
-		cout << "GameEngine::PreInit() : Failed to create RenderManager" << endl;
+		std::cout << "GameEngine::PreInit() : Failed to create RenderManager" << std::endl;
 		return false;
 	}
 	Subsystems.push_back(mRenderManager);
@@ -56,7 +58,7 @@ bool GameEngine::PreInit()
 	mCollisionManager = new CollisionManager();
 	if (!mCollisionManager)
 	{
-		cout << "GameEngine::PreInit() : Failed to create CollisionManager" << endl;
+		std::cout << "GameEngine::PreInit() : Failed to create CollisionManager" << std::endl;
 		return false;
 	}
 	Subsystems.push_back(mCollisionManager);
@@ -64,7 +66,7 @@ bool GameEngine::PreInit()
 	mInputManager = new InputManager();
 	if (!mInputManager)
 	{
-		cout << "GameEngine::PreInit() : Failed to create InputManager" << endl;
+		std::cout << "GameEngine::PreInit() : Failed to create InputManager" << std::endl;
 		return false;
 	}
 	Subsystems.push_back(mInputManager);
@@ -105,7 +107,7 @@ void GameEngine::Tick()
 			if (second >= 1)
 			{
 				second = 0.f;
-				cout << "FPS: " << nbFrames << endl;
+				std::cout << "FPS: " << nbFrames << std::endl;
 				nbFrames = 0;
 			}
 		}
@@ -182,7 +184,12 @@ GameEngine *GameEngine::GameEngine::GetGameEngine()
 
 GameEngine::~GameEngine()
 {
+	KillActors();
+	while (Actors.size())
+		RemoveActor(Actors[0]);
 	Actors.clear();
+	while (NewActors.size())
+		RemoveActor(NewActors[0]);
 	NewActors.clear();
 
 	while (Subsystems.size())

@@ -1,9 +1,10 @@
 
 #include "Modules/LevelModule/BGComponent.h"
 
+#include "Modules/CoreModule/GameEngine.h"
 #include "Modules/ObjectModule/Object/Actor/Actor.h"
 
-void BGComponent::SetTextures(const vector<SDL_Texture*>& Textures)
+void BGComponent::SetTextures(const std::vector<SDL_Texture*>& Textures)
 {
 	int count = 0;
 	for (SDL_Texture* text : Textures)

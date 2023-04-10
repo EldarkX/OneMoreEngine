@@ -2,12 +2,17 @@
 
 #include "Modules/ObjectModule/Object/Actor/Components/SpriteComponent.h"
 
+#include <vector>
+
+#include "SDL.h"
+#include "SDL_image.h"
+
 class BGComponent : public CSpriteComponent
 {
 public:
 	virtual void				Tick(float deltaTime) override;
 
-	void						SetTextures(const vector<SDL_Texture*>& Textures);
+	void						SetTextures(const std::vector<SDL_Texture*>& Textures);
 
 	float						GetScrollSpeed() const { return mScrollSpeed; }
 	void						SetScrollSpeed(float ScrollSpeed) { mScrollSpeed = ScrollSpeed; }
@@ -20,7 +25,7 @@ private:
 		SDL_Texture*			mTexture;
 		float					mOffsetX;
 	};
-	vector<BGTexture>			mBGTextures;
+	std::vector<BGTexture>		mBGTextures;
 
 	float						mScrollSpeed = 5.;
 };

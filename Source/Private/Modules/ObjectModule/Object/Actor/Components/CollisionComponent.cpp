@@ -1,10 +1,11 @@
 
 #include "Modules/ObjectModule/Object/Actor/Components/CollisionComponent.h"
 
+#include "Modules/CoreModule/GameEngine.h"
 #include "Modules/PhysicsModule/CollisionManager.h"
 #include "Modules/ObjectModule/Object/Actor/Actor.h"
 
-void CCollisionComponent::TriggerCollision(class AActor* AnotherActor, CCollisionComponent* AnotherCollisionComponent)
+void CCollisionComponent::TriggerCollision(AActor* AnotherActor, CCollisionComponent* AnotherCollisionComponent)
 {
 	OnComponentCollided(AnotherActor, AnotherCollisionComponent);
 }

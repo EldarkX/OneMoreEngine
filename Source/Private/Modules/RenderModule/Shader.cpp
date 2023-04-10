@@ -3,11 +3,10 @@
 
 #include <fstream>
 #include <sstream>
+
 #include "SDL.h"
 
-using std::ifstream;
-
-bool Shader::Load(const string& vertName, const string& fragName)
+bool Shader::Load(const std::string& vertName, const std::string& fragName)
 {
 	if (!CompileShader(vertName, GL_VERTEX_SHADER, mVertexShader)
 		|| !CompileShader(fragName, GL_FRAGMENT_SHADER, mFragShader))
@@ -47,9 +46,9 @@ Shader::~Shader()
 	glDeleteShader(mFragShader);
 }
 
-bool Shader::CompileShader(const string& fileName, GLenum shaderType, GLuint& outShader)
+bool Shader::CompileShader(const std::string& fileName, GLenum shaderType, GLuint& outShader)
 {
-	ifstream shaderFile(fileName);
+	std::ifstream shaderFile(fileName);
 
 	if (shaderFile.is_open())
 	{
@@ -57,7 +56,7 @@ bool Shader::CompileShader(const string& fileName, GLenum shaderType, GLuint& ou
 
 		sstream << shaderFile.rdbuf();
 		
-		string tmp = sstream.str();
+		std::string tmp = sstream.str();
 
 		const char* contentsChar = tmp.c_str();
 
@@ -92,7 +91,7 @@ bool Shader::IsValidProgram()
 	return CheckIsValid(GL_LINK_STATUS, true, &mShaderProgram, "GLSL compile failed: %s\n");
 }
 
-bool Shader::CheckIsValid(GLenum checkParam, bool isProgram, GLuint *entity, string errorMsg)
+bool Shader::CheckIsValid(GLenum checkParam, bool isProgram, GLuint *entity, std::string errorMsg)
 {
 	GLint status;
 

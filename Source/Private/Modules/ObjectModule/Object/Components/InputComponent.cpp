@@ -1,6 +1,7 @@
 
 #include "Modules/ObjectModule/Object/Components/InputComponent.h"
 
+#include "Modules/CoreModule/GameEngine.h"
 #include "Modules/CoreModule/InputManager.h"
 #include "Modules/ObjectModule/Object/Actor/Actor.h"
 

@@ -1,14 +1,14 @@
 #pragma once
 
-#include "Modules/CoreModule/GameEngine.h"
+#include <string>
 
 class OTexture
 {
 public:
 					OTexture() {};
-					OTexture(const string& path);
+					OTexture(const std::string& path);
 
-	bool			Load(const string& path);
+	bool			Load(const std::string& path);
 	void			Unload();
 
 	void			SetActive();

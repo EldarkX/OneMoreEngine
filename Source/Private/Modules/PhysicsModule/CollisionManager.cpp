@@ -6,6 +6,8 @@
 
 #include "Modules/MathModule/Vector2D.h"
 
+#include <algorithm>
+
 bool CollisionManager::Initialize()
 {
 	return true;

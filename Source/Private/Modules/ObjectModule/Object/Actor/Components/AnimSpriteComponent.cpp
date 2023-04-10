@@ -4,7 +4,14 @@
 #include "Modules/ObjectModule/Object/Actor/Actor.h"
 #include "Modules/RenderModule/Texture.h"
 
-void CAnimSpriteComponent::PlayAnimation(string name, float playRate)
+#include <iostream>
+
+void CAnimSpriteComponent::BeginPlay()
+{
+	CSpriteComponent::BeginPlay();
+}
+
+void CAnimSpriteComponent::PlayAnimation(std::string name, float playRate)
 {
 	if (Animations.count(name))
 	{
@@ -50,11 +57,11 @@ void CAnimSpriteComponent::Tick(float deltaTime)
 	}
 }
 
-void CAnimSpriteComponent::AddAnimation(string name, string path, unsigned int framesAmount,
+void CAnimSpriteComponent::AddAnimation(std::string name, std::string path, unsigned int framesAmount,
 	unsigned int animFPS /*= 24*/, unsigned int priority /*= 0*/, bool isLooping /*= false*/)
 {
-	string zero;
-	string new_path;
+	std::string zero;
+	std::string new_path;
 
 	Animation* newAnim = new Animation(animFPS, priority, isLooping);
 
@@ -69,22 +76,17 @@ void CAnimSpriteComponent::AddAnimation(string name, string path, unsigned int f
 	Animations.insert({ name, newAnim });
 }
 
-void CAnimSpriteComponent::SetBaseAnimation(string name)
+void CAnimSpriteComponent::SetBaseAnimation(std::string name)
 {
 	if (!Animations.count(name))
 	{
-		cout << "Error: can't set base animation" << endl;
+		std::cout << "Error: can't set base animation" << std::endl;
 		exit(-1);
 	}
 
 	BaseAnimation = name;
 
 	CurrentAnimation = { name, Animations[BaseAnimation] };
-}
-
-void CAnimSpriteComponent::BeginPlay()
-{
-	CSpriteComponent::BeginPlay();
 }
 
 CAnimSpriteComponent::~CAnimSpriteComponent()
@@ -94,5 +96,3 @@ CAnimSpriteComponent::~CAnimSpriteComponent()
 
 	SetTexture(nullptr);
 }
-
-Animation::~Animation() {}

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Modules/ObjectModule/Object/Components/BaseComponent.h"
+#include "Modules/MathModule/Vector2D.h"
 
 class CLinearMovementComponent : public CBaseComponent
 {

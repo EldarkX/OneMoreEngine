@@ -2,6 +2,13 @@
 
 #include "Modules/CoreModule/Subsystem.h"
 
+#include "Modules/MathModule/Matrix4.h"
+
+#include <vector>
+
+#include "SDL_image.h"
+#include "SDL.h"
+
 class CSpriteComponent;
 class VertexArray;
 class Shader;
@@ -38,7 +45,7 @@ protected:
 	SDL_Window*						mWindow = nullptr;
 	SDL_GLContext					mContext = nullptr;
 
-	vector<CSpriteComponent*>		mDrawableComponents;
+	std::vector<CSpriteComponent*>	mDrawableComponents;
 
 	VertexArray*					mSpriteVerts = nullptr;
 	Shader*							mSpriteShader = nullptr;

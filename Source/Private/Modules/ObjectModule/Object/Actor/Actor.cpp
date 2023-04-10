@@ -1,6 +1,8 @@
 
 #include "Modules/ObjectModule/Object/Actor/Actor.h"
 
+#include "Modules/CoreModule/GameEngine.h"
+
 #include "Modules/ObjectModule/Object/Actor/Components/SpriteComponent.h"
 #include "Modules/ObjectModule/Object/Actor/Components/CollisionComponent.h"
 #include "Modules/ObjectModule/Object/Actor/Components/Transform2DComponent.h"
@@ -64,7 +66,9 @@ void AActor::Destroy()
 AActor::~AActor()
 {
 	while (!mComponents.empty())
-		RemoveComponent(mComponents.back());
+	{
+		RemoveComponent(mComponents[0]);
+	}
 
 	OnStartBeingPendingToKill.Clear();
 }

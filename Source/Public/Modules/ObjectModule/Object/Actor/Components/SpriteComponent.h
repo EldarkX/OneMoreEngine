@@ -19,13 +19,10 @@ public:
 	void					SetDrawOrder(int newDrawOrder) { DrawOrder = newDrawOrder; }
 
 							~CSpriteComponent();
-
 protected:
-
 	virtual void			Draw(class Shader* shader);
 
-	int						DrawOrder = 100;
-
+protected:
 	OTexture*				Texture = nullptr;
-
+	int						DrawOrder = 100;
 };

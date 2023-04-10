@@ -2,6 +2,8 @@
 
 #include "Modules/CoreModule/Subsystem.h"
 
+#include <vector>
+
 class CCollisionComponent;
 
 class CollisionManager : public Subsystem
@@ -19,6 +21,6 @@ protected:
 	bool			AreCollided(CCollisionComponent* Agent1, CCollisionComponent* Agent2);
 
 private:
-    vector<CCollisionComponent*> Agents;
+    std::vector<CCollisionComponent*>	Agents;
 };
 

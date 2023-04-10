@@ -7,12 +7,11 @@ class CSpriteComponent;
 class ASpriteActor : public AActor
 {
 public:
-	ASpriteActor();
+						ASpriteActor();
 
-	CSpriteComponent* GetSpriteComponent() const { return mSpriteComponent; }
-
-	Vector2D GetActorSize() const override;
+	CSpriteComponent*	GetSpriteComponent() const { return mSpriteComponent; }
+	Vector2D			GetActorSize() const override;
 
 protected:
-	CSpriteComponent* mSpriteComponent;
+	CSpriteComponent*	mSpriteComponent;
 };
