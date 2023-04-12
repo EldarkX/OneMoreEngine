@@ -29,14 +29,15 @@ void CollisionManager::CheckAllCollisions()
 	int AgentsAmount = static_cast<int>(Agents.size());
 	int FirstAgentIndex = 0;
 	int SecondAgentIndex = 1;
-	for (auto &FirstAgent : Agents)
+	std::vector AgentsBuffer = Agents;
+	for (auto *FirstAgent : AgentsBuffer)
 	{
 		SecondAgentIndex = FirstAgentIndex;
 		if (FirstAgent->GetOwner()->GetIsPendingToKill() || !FirstAgent->IsCollisionEnabled())
 			continue;
 		while (++SecondAgentIndex < AgentsAmount)
 		{
-			auto SecondAgent = Agents[SecondAgentIndex];
+			auto SecondAgent = AgentsBuffer[SecondAgentIndex];
 			if (SecondAgent->GetOwner()->GetIsPendingToKill() || !SecondAgent->IsCollisionEnabled())
 				continue;
 			if (FirstAgent->CanCollidedWith(SecondAgent) && AreCollided(FirstAgent, SecondAgent))
